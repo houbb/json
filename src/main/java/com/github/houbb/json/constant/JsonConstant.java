@@ -1,4 +1,10 @@
-package com.github.houbb.constant;
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ * Copyright (c) 2012-2018. haiyi Inc.
+ * json All rights reserved.
+ */
+
+package com.github.houbb.json.constant;
 
 /**
  * <p> </p>
@@ -19,5 +25,10 @@ public class JsonConstant {
     public static final String JSON_ARRAY_PREFIX = "[";
 
     public static final String JSON_ARRAY_SUPPFIX = "]";
+
+    /**
+     * 空值: null
+     */
+    public static final String STRING_NULL = "null";
 
 }

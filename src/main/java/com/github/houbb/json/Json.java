@@ -1,4 +1,10 @@
-package com.github.houbb;
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ * Copyright (c) 2012-2018. haiyi Inc.
+ * json All rights reserved.
+ */
+
+package com.github.houbb.json;
 
 /**
  * <p> </p>

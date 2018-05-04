@@ -1,4 +1,12 @@
-package com.github.houbb.api;
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ * Copyright (c) 2012-2018. haiyi Inc.
+ * json All rights reserved.
+ */
+
+package com.github.houbb.json.api;
+
+import com.github.houbb.json.support.config.JsonConfig;
 
 import java.util.List;
 
@@ -16,10 +24,18 @@ public interface JsonApi {
 
     /**
      * 转化为Json
-     * @param object
-     * @return
+     * @param object 对象
+     * @return json
      */
     String toJson(Object object);
+
+    /**
+     * 转化为Json
+     * @param object 对象
+     * @param jsonConfig 配置
+     * @return json
+     */
+    String toJson(Object object, JsonConfig jsonConfig);
 
     /**
      * 转换为对象
