@@ -29,6 +29,8 @@ public class UserPrepare {
         user.setId(1);
         user.setName("hello");
         user.setTime(new Date());
+        user.setLucky('c');
+        user.setCharacter('C');
         return user;
     }
 

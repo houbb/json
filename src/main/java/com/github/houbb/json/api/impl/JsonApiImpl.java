@@ -111,7 +111,9 @@ public class JsonApiImpl implements JsonApi {
         if(ObjectUtil.isNull(value)) {
             return null;
         }
-        if(String.class.equals(type)) {
+        if(String.class.equals(type)
+                || Character.class.equals(type)
+                || char.class.equals(type)) {
             return StringUtils.bothAppendDoubleQuote(value.toString());
         }
         if(Date.class.equals(type)) {

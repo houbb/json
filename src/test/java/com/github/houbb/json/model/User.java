@@ -21,6 +21,10 @@ import java.util.Date;
  */
 public class User {
 
+    private char lucky;
+
+    private Character character;
+
     private String name;
 
     private int id;
@@ -28,6 +32,22 @@ public class User {
     private BigDecimal amount;
 
     private Date time;
+
+    public char getLucky() {
+        return lucky;
+    }
+
+    public void setLucky(char lucky) {
+        this.lucky = lucky;
+    }
+
+    public Character getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(Character character) {
+        this.character = character;
+    }
 
     public String getName() {
         return name;
