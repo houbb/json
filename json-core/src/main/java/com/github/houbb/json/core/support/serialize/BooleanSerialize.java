@@ -2,19 +2,18 @@ package com.github.houbb.json.core.support.serialize;
 
 import com.github.houbb.heaven.annotation.ThreadSafe;
 import com.github.houbb.json.api.ISerialize;
-import com.github.houbb.json.core.constant.JsonConst;
 
 /**
- * null 序列化
+ * 布尔序列化
  * @author binbin.hou
- * @since 0.0.1
+ * @since 0.0.2
  */
 @ThreadSafe
-public class NullSerialize implements ISerialize {
+public class BooleanSerialize implements ISerialize<Boolean> {
 
     @Override
-    public String serialize(Object object) {
-        return JsonConst.NULL;
+    public String serialize(Boolean aBoolean) {
+        return aBoolean.toString();
     }
 
 }
