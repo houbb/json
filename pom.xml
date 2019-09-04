@@ -6,7 +6,12 @@
 
     <groupId>com.github.houbb</groupId>
     <artifactId>json</artifactId>
+    <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
+    <modules>
+        <module>json-api</module>
+        <module>json-core</module>
+    </modules>
 
     <properties>
         <!--============================== All Plugins START ==============================-->
@@ -34,6 +39,16 @@
     <dependencyManagement>
         <dependencies>
             <!--============================== SELF ==============================-->
+            <dependency>
+                <groupId>com.github.houbb</groupId>
+                <artifactId>json-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.houbb</groupId>
+                <artifactId>json-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!--============================== INTER ==============================-->
             <dependency>
@@ -62,6 +77,7 @@
     <dependencies>
         <!--============================== SELF ==============================-->
 
+
         <!--============================== INTER ==============================-->
         <dependency>
             <groupId>com.github.houbb</groupId>
@@ -75,11 +91,6 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.59</version>
         </dependency>
 
     </dependencies>
