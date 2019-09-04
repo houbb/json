@@ -21,7 +21,7 @@
 ## 基本例子
 
 ```java
-import com.github.houbb.json.core.bs.JsonBs;
+import JsonBs;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -8,10 +8,6 @@
     <artifactId>json</artifactId>
     <packaging>pom</packaging>
     <version>0.0.2</version>
-    <modules>
-        <module>json-api</module>
-        <module>json-core</module>
-    </modules>
 
     <properties>
         <!--============================== All Plugins START ==============================-->
@@ -39,16 +35,6 @@
     <dependencyManagement>
         <dependencies>
             <!--============================== SELF ==============================-->
-            <dependency>
-                <groupId>com.github.houbb</groupId>
-                <artifactId>json-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.houbb</groupId>
-                <artifactId>json-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
 
             <!--============================== INTER ==============================-->
             <dependency>
