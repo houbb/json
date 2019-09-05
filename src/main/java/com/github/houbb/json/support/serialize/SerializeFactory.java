@@ -3,7 +3,15 @@ package com.github.houbb.json.support.serialize;
 import com.github.houbb.heaven.support.instance.impl.Instances;
 import com.github.houbb.heaven.util.lang.ObjectUtil;
 import com.github.houbb.json.api.ISerialize;
+import com.github.houbb.json.support.serialize.math.BigDecimalSerialize;
+import com.github.houbb.json.support.serialize.math.BigIntegerSerialize;
+import com.github.houbb.json.support.serialize.util.CurrencySerialize;
+import com.github.houbb.json.support.serialize.util.DateSerialize;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Currency;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +32,22 @@ public final class SerializeFactory {
 
     static {
         CLASS_INSTANCE_MAP.put(String.class, Instances.singleton(StringSerialize.class));
+        CLASS_INSTANCE_MAP.put(Enum.class, Instances.singleton(EnumSerialize.class));
+
+        CLASS_INSTANCE_MAP.put(Boolean.class, Instances.singleton(BooleanSerialize.class));
+        CLASS_INSTANCE_MAP.put(Character.class, Instances.singleton(CharacterSerialize.class));
+        CLASS_INSTANCE_MAP.put(Byte.class, Instances.singleton(ByteSerialize.class));
+        CLASS_INSTANCE_MAP.put(Short.class, Instances.singleton(ShortSerialize.class));
+        CLASS_INSTANCE_MAP.put(Integer.class, Instances.singleton(IntegerSerialize.class));
+        CLASS_INSTANCE_MAP.put(Long.class, Instances.singleton(LongSerialize.class));
+        CLASS_INSTANCE_MAP.put(Float.class, Instances.singleton(FloatSerialize.class));
+        CLASS_INSTANCE_MAP.put(Double.class, Instances.singleton(DoubleSerialize.class));
+
+        CLASS_INSTANCE_MAP.put(BigDecimal.class, Instances.singleton(BigDecimalSerialize.class));
+        CLASS_INSTANCE_MAP.put(BigInteger.class, Instances.singleton(BigIntegerSerialize.class));
+
+        CLASS_INSTANCE_MAP.put(Currency.class, Instances.singleton(CurrencySerialize.class));
+        CLASS_INSTANCE_MAP.put(Date.class, Instances.singleton(DateSerialize.class));
     }
 
     /**
