@@ -1,6 +1,5 @@
 # maven ignore
-target
-
+target/
 *.jar
 *.war
 *.zip
@@ -32,3 +31,4 @@ target
 .DS_Store
 Thumbs.db
 
+# passion

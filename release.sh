@@ -2,15 +2,15 @@
 echo "============================= RELEASE START..."
 
 ## 版本号信息(需要手动指定)
-oldVersion="${version}"
-newVersion="${version}"
-projectName="${artifactId}"
+version="0.0.1"
+newVersion="0.0.2"
+projectName="csv"
 
 # release 项目版本
 ## snapshot 版本号
-snapshot_version=${oldVersion}"-SNAPSHOT"
+snapshot_version=${version}"-SNAPSHOT"
 ## 新的版本号
-release_version=${oldVersion}
+release_version=${version}
 
 mvn versions:set -DgroupId=com.github.houbb -DartifactId=${projectName} -DoldVersion=${snapshot_version} -DnewVersion=${release_version}
 mvn -N versions:update-child-modules
@@ -72,7 +72,7 @@ echo "============================= RELEASE END..."
 # 使用方式：
 # 1. 赋值权限： chmod +x ./release.sh
 # 2. 执行： ./release.sh
-# Last Update Time: 2018-01-20 12:07:34
+# Last Update Time: 2018-01-20 13:17:06
 # Author:   houbb
 
 
