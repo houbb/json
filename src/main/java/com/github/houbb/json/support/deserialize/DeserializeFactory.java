@@ -16,6 +16,7 @@ import com.github.houbb.json.support.deserialize.util.DateDeserialize;
 import com.github.houbb.json.support.serialize.aggregate.ArrayBooleanSerialize;
 import com.github.houbb.json.support.serialize.aggregate.ArrayCharSerialize;
 import com.github.houbb.json.support.serialize.aggregate.ArrayDoubleSerialize;
+import com.github.houbb.json.support.serialize.aggregate.CollectionSerialize;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -73,6 +74,10 @@ public final class DeserializeFactory {
 
         if(ClassTypeUtil.isArray(clazz)) {
             return getArrayDeserialize(clazz);
+        }
+        // 集合
+        if(ClassTypeUtil.isCollection(clazz)) {
+            return Instances.singleton(CollectionDeserialize.class);
         }
 
         // 引用类型
