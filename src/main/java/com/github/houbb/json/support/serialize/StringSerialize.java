@@ -6,6 +6,7 @@ import com.github.houbb.json.api.ISerialize;
 
 /**
  * String 序列化
+ * TODO: 转义字符的问题
  * @author binbin.hou
  * @since 0.0.2
  */
