@@ -1,6 +1,7 @@
 package com.github.houbb.json.support.deserialize;
 
 import com.github.houbb.json.api.IDeserialize;
+import com.github.houbb.json.api.ISpecialSymbol;
 
 /**
  * String 反序列对象
@@ -11,7 +12,7 @@ import com.github.houbb.json.api.IDeserialize;
  * @author binbin.hou
  * @since 0.0.2
  */
-public class StringDeserialize implements IDeserialize<String> {
+public class StringDeserialize implements IDeserialize<String> , ISpecialSymbol {
 
     @Override
     public String deserialize(String json, Class<String> stringClass) {

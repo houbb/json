@@ -20,4 +20,13 @@ public class StringTest {
         Assert.assertEquals(string, JsonBs.deserialize(json, String.class));
     }
 
+    @Test
+    public void escapeTest() {
+        final String string = "\"123";
+        Assert.assertEquals("\"123", JsonBs.serialize(string));
+
+        final String json = "\"123\"";
+        Assert.assertEquals(string, JsonBs.deserialize(json, String.class));
+    }
+
 }

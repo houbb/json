@@ -2,7 +2,10 @@ package com.github.houbb.json.support.serialize;
 
 import com.github.houbb.heaven.support.instance.impl.Instances;
 import com.github.houbb.heaven.util.lang.ObjectUtil;
+import com.github.houbb.heaven.util.lang.reflect.ClassTypeUtil;
+import com.github.houbb.heaven.util.lang.reflect.PrimitiveUtil;
 import com.github.houbb.json.api.ISerialize;
+import com.github.houbb.json.support.serialize.aggregate.ArraySerialize;
 import com.github.houbb.json.support.serialize.math.BigDecimalSerialize;
 import com.github.houbb.json.support.serialize.math.BigIntegerSerialize;
 import com.github.houbb.json.support.serialize.util.CurrencySerialize;
@@ -65,8 +68,14 @@ public final class SerializeFactory {
         }
         final Class clazz = object.getClass();
 
-        // 字符串
-        return CLASS_INSTANCE_MAP.get(clazz);
+        // 聚合类型
+        if(ClassTypeUtil.isArray(clazz)) {
+            return Instances.singleton(ArraySerialize.class);
+        }
+
+        // 基本类型
+        final Class refClazz = PrimitiveUtil.getReferenceType(clazz);
+        return CLASS_INSTANCE_MAP.get(refClazz);
     }
 
 }

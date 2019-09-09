@@ -3,8 +3,6 @@ package com.github.houbb.json.bs;
 import com.github.houbb.heaven.support.instance.impl.Instances;
 import com.github.houbb.json.core.DefaultJson;
 
-import java.util.List;
-
 /**
  * Json 引导类
  * @author binbin.hou
@@ -34,18 +32,6 @@ public final class JsonBs {
      */
     public static <T> T deserialize(String json, Class<T> tClass) {
         return Instances.threadLocal(DefaultJson.class).deserialize(json, tClass);
-    }
-
-    /**
-     * 反序列化列表
-     * @param json json
-     * @param tClass 类信息
-     * @param <T> 泛型
-     * @return 列表
-     * @since 0.0.1
-     */
-    public static <T> List<T> deserializeList(String json, Class<T> tClass) {
-        throw new UnsupportedOperationException();
     }
 
 }
