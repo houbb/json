@@ -37,11 +37,4 @@ public final class JsonIterableUtil {
         return ' ' == c || ',' == c;
     }
 
-    public static void main(String[] args) {
-        String string = "\\\"123";
-
-        System.out.println("\\\"123".equals(string));
-        System.out.println(string);
-    }
-
 }

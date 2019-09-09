@@ -49,6 +49,8 @@ import com.github.houbb.heaven.response.respcode.RespCode;
  */
 public class JsonRuntimeException extends RuntimeException {
 
+    private static final long serialVersionUID = -4084237447709915881L;
+
     /**
      * 响应编码
      */

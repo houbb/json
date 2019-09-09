@@ -6,6 +6,7 @@ import com.github.houbb.heaven.util.lang.reflect.ClassTypeUtil;
 import com.github.houbb.heaven.util.lang.reflect.PrimitiveUtil;
 import com.github.houbb.json.api.ISerialize;
 import com.github.houbb.json.support.serialize.aggregate.ArraySerialize;
+import com.github.houbb.json.support.serialize.aggregate.CollectionSerialize;
 import com.github.houbb.json.support.serialize.math.BigDecimalSerialize;
 import com.github.houbb.json.support.serialize.math.BigIntegerSerialize;
 import com.github.houbb.json.support.serialize.util.CurrencySerialize;
@@ -69,8 +70,13 @@ public final class SerializeFactory {
         final Class clazz = object.getClass();
 
         // 聚合类型
+        // 数组
         if(ClassTypeUtil.isArray(clazz)) {
             return Instances.singleton(ArraySerialize.class);
+        }
+        // 集合
+        if(ClassTypeUtil.isCollection(clazz)) {
+            return Instances.singleton(CollectionSerialize.class);
         }
 
         // 基本类型
