@@ -58,6 +58,8 @@ public final class DeserializeFactory {
 
         CLASS_INSTANCE_MAP.put(Currency.class, Instances.singleton(CurrencyDeserialize.class));
         CLASS_INSTANCE_MAP.put(Date.class, Instances.singleton(DateDeserialize.class));
+
+        CLASS_INSTANCE_MAP.put(Object.class, Instances.singleton(ObjectDeserialize.class));
     }
 
     /**

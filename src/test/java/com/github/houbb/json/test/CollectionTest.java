@@ -23,9 +23,23 @@ public class CollectionTest {
         strings.add("20");
         strings.add("30");
 
+        Class clazz = strings.getClass();
+
         final String json = "[\"10\",\"20\",\"30\"]";
         Assert.assertEquals(json, JsonBs.serialize(strings));
-        System.out.println(JsonBs.deserialize(json, List.class));
+        System.out.println(JsonBs.deserialize(json, clazz));
+    }
+
+    @Test
+    public void intTest() {
+        List<Integer> integers = new ArrayList<>();
+        integers.add(1);
+        integers.add(2);
+        integers.add(3);
+
+        final String json = "[1,2,3]";
+        Assert.assertEquals(json, JsonBs.serialize(integers));
+        System.out.println(JsonBs.deserialize(json, integers.getClass()));
     }
 
 }

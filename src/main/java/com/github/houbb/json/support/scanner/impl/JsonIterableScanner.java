@@ -20,9 +20,10 @@ import java.util.List;
  * 可遍历扫描接口类
  *
  * 主要针对一些特殊符号的处理【,】
+ *
+ * @author binbin.hou
  * @see java.lang.reflect.Array 数组
  * @see Iterable 可遍历的结合对象
- * @author binbin.hou
  * @since 0.0.4
  */
 @ThreadSafe
@@ -30,14 +31,15 @@ public class JsonIterableScanner implements IJsonScanner {
 
     /**
      * 只需要考虑 " 和转义字符 \
-     * @param json json 内容
+     *
+     * @param json        json 内容
      * @param deserialize 反序列对象
      * @return 分组后的列表信息
      */
     @Override
     public List<String> scan(String json, IDeserialize deserialize) {
-        if(StringUtil.isEmpty(json)
-            || JsonIterableConst.EMPTY.equals(json)) {
+        if (StringUtil.isEmpty(json)
+                || JsonIterableConst.EMPTY.equals(json)) {
             return Collections.emptyList();
         }
 
@@ -49,12 +51,12 @@ public class JsonIterableScanner implements IJsonScanner {
             boolean doubleQuotesStart = false;
             char preChar = ' ';
             StringBuilder stringBuilder = new StringBuilder();
-            for(int i = 1; i < chars.length-1; i++) {
+            for (int i = 1; i < chars.length - 1; i++) {
                 final char currentChar = chars[i];
 
                 // 上一个字符不是转义，且当前为 "。则进行状态的切换
-                if(PunctuationConst.C_BACK_SLASH != preChar
-                    && PunctuationConst.C_DOUBLE_QUOTES == currentChar) {
+                if (PunctuationConst.C_BACK_SLASH != preChar
+                        && PunctuationConst.C_DOUBLE_QUOTES == currentChar) {
                     // 对标记进行取反操作。
                     doubleQuotesStart = !doubleQuotesStart;
 
@@ -63,7 +65,7 @@ public class JsonIterableScanner implements IJsonScanner {
 
                     // 如果由开始=》结束。
                     // 保存 builder内容，重新初始化 builder
-                    if(!doubleQuotesStart) {
+                    if (!doubleQuotesStart) {
                         stringBuilder.append(currentChar);
                         stringList.add(stringBuilder.toString());
                         stringBuilder = new StringBuilder();
@@ -74,21 +76,21 @@ public class JsonIterableScanner implements IJsonScanner {
                     // 如果从结束=》开始
                 }
 
-                if(doubleQuotesStart) {
+                if (doubleQuotesStart) {
                     // 标记为 item 开始，直接添加当前字符。
                     stringBuilder.append(currentChar);
                 } else {
                     // item 处于未开始的状态。只允许空格，逗号，
-                    if(!JsonIterableUtil.isBlankOrComma(currentChar)) {
+                    if (!JsonIterableUtil.isBlankOrComma(currentChar)) {
                         throw new JsonRuntimeException(JsonRespCode.DES_NEED_COMMA_BLANK);
                     }
                 }
             }
             return stringList;
         } else {
-            String[] strings = json.split(PunctuationConst.COMMA);
-            // 这里为了代码的统一性，牺牲了一点儿性能。
-            // 直接返回字符串数组，避免对象的创建。性能更好。
+            // 去除开头结尾
+            String contentJson = json.substring(1, json.length()-1);
+            String[] strings = contentJson.split(PunctuationConst.COMMA);
             return CollectionUtil.arrayToList(strings);
         }
     }
@@ -97,14 +99,15 @@ public class JsonIterableScanner implements IJsonScanner {
      * 获取上一个字符
      *
      * 保证转义字符的两次抵消。
-     * @param preChar 上一个字符
+     *
+     * @param preChar     上一个字符
      * @param currentChar 当前字符
      * @return 结果
      * @since 0.0.4
      */
     private char getPreChar(final char preChar, final char currentChar) {
         // 判断前一个字符是什么
-        if(PunctuationConst.C_BACK_SLASH == preChar
+        if (PunctuationConst.C_BACK_SLASH == preChar
                 && PunctuationConst.C_BACK_SLASH == currentChar) {
             return PunctuationConst.C_BLANK;
         }
@@ -115,13 +118,14 @@ public class JsonIterableScanner implements IJsonScanner {
      * 信息校验
      * （1）必须以 [ 开始
      * （2）必须以 ] 结束
+     *
      * @param chars 信息
      */
     private void iterableCheck(final char[] chars) {
-        if(JsonIterableConst.C_START != chars[0]) {
+        if (JsonIterableConst.C_START != chars[0]) {
             throw new JsonRuntimeException(JsonRespCode.DES_NEED_ITERABLE_START);
         }
-        if(JsonIterableConst.C_END != chars[chars.length-1]) {
+        if (JsonIterableConst.C_END != chars[chars.length - 1]) {
             throw new JsonRuntimeException(JsonRespCode.DES_NEED_ITERABLE_START);
         }
     }

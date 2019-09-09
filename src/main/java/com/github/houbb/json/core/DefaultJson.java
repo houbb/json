@@ -19,12 +19,14 @@ import com.github.houbb.json.support.serialize.SerializeFactory;
  */
 public class DefaultJson implements IJson {
 
+    @SuppressWarnings("unchecked")
     @Override
     public String serialize(Object object) {
         ISerialize serialize = SerializeFactory.getSerialize(object);
         return serialize.serialize(object);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T deserialize(String json, Class<T> tClass) {
         IDeserialize deserialize = DeserializeFactory.getDeserialize(json, tClass);

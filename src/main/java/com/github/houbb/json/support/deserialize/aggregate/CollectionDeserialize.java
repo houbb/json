@@ -18,27 +18,17 @@ import java.util.List;
  * @author binbin.hou
  * @since 0.0.5
  */
-public class CollectionDeserialize<T> implements IDeserialize<Collection<T>> {
+public class CollectionDeserialize<T> implements IDeserialize<Collection> {
 
-    /**
-     * 获取元素的类型
-     * TODO: 这里是一个难点 如果没有好办法，就直接使用 fastjson 的方式。
-     * @param collectionClass 元素的类型
-     * @return 结果
-     */
-    private Class getItemClass(final Class<Collection<T>> collectionClass) {
-        return TypeUtil.getGenericType(collectionClass);
-    }
-
+    @SuppressWarnings("unchecked")
     @Override
-    public Collection<T> deserialize(String json, Class<Collection<T>> collectionClass) {
+    public Collection deserialize(String json, Class<Collection> collectionClass) {
         final String trimJson = json.trim();
         if(JsonIterableConst.EMPTY.equals(trimJson)) {
             return TypeUtil.createCollection(collectionClass);
         }
 
-        // 获取对应的序列化接口，考虑是否使用快速模式
-        final Class itemClass = getItemClass(collectionClass);
+        final Class itemClass = (Class) TypeUtil.getCollectionItemType(collectionClass);
         IDeserialize deserialize = DeserializeFactory.getDeserialize(itemClass);
         List<String> stringList = Instances.singleton(JsonIterableScanner.class).scan(trimJson, deserialize);
         Collection collection = TypeUtil.createCollection(collectionClass, stringList.size());
