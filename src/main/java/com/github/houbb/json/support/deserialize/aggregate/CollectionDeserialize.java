@@ -30,7 +30,7 @@ public class CollectionDeserialize<T> implements IDeserialize<Collection> {
 
         final Class itemClass = (Class) TypeUtil.getCollectionItemType(collectionClass);
         IDeserialize deserialize = DeserializeFactory.getDeserialize(itemClass);
-        List<String> stringList = Instances.singleton(JsonIterableScanner.class).scan(trimJson, deserialize);
+        List<String> stringList = Instances.singleton(JsonIterableScanner.class).scan(trimJson);
         Collection collection = TypeUtil.createCollection(collectionClass, stringList.size());
         for(String itemJson : stringList) {
             T item = (T) deserialize.deserialize(itemJson, itemClass);

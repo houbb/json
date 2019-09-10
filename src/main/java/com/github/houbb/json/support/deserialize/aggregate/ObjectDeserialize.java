@@ -1,5 +1,6 @@
 package com.github.houbb.json.support.deserialize.aggregate;
 
+import com.github.houbb.heaven.constant.CharConst;
 import com.github.houbb.heaven.constant.PunctuationConst;
 import com.github.houbb.heaven.util.lang.NumUtil;
 import com.github.houbb.heaven.util.util.Optional;
@@ -80,8 +81,8 @@ public class ObjectDeserialize implements IDeserialize {
      * @return 是否
      */
     private boolean isStringType(final String json) {
-        return json.charAt(0) == PunctuationConst.C_DOUBLE_QUOTES
-                && json.charAt(json.length()-1) == PunctuationConst.C_DOUBLE_QUOTES;
+        return json.charAt(0) == CharConst.DOUBLE_QUOTES
+                && json.charAt(json.length()-1) == CharConst.DOUBLE_QUOTES;
     }
 
 }

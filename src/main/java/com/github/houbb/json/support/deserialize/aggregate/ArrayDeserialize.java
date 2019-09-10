@@ -44,7 +44,7 @@ public class ArrayDeserialize<T> implements IDeserialize<T[]> {
         // 获取对应的序列化接口，考虑是否使用快速模式
         IDeserialize deserialize = DeserializeFactory.getDeserialize(itemClass);
         // 开始和结尾要去掉。
-        List<String> stringList = Instances.singleton(JsonIterableScanner.class).scan(trimJson, deserialize);
+        List<String> stringList = Instances.singleton(JsonIterableScanner.class).scan(trimJson);
         final int arraySize = stringList.size();
         T[] resultArray = (T[]) Array.newInstance(itemClass, arraySize);
         for(int i = 0; i < arraySize; i++) {
