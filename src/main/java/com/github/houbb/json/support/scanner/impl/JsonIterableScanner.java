@@ -27,7 +27,7 @@ import java.util.List;
  * @since 0.0.4
  */
 @ThreadSafe
-public class JsonIterableScanner implements IJsonScanner {
+public class JsonIterableScanner implements IJsonScanner<String> {
 
     /**
      * 只需要考虑 " 和转义字符 \
@@ -37,13 +37,15 @@ public class JsonIterableScanner implements IJsonScanner {
      * @return 分组后的列表信息
      */
     @Override
-    public List<String> scan(String json, IDeserialize deserialize) {
+    public List<String> scan(String json, IDeserialize... deserialize) {
         if (StringUtil.isEmpty(json)
                 || JsonIterableConst.EMPTY.equals(json)) {
             return Collections.emptyList();
         }
 
-        if(deserialize instanceof ISpecialSymbol) {
+        final IDeserialize firstDeserialize = deserialize[0];
+
+        if(firstDeserialize instanceof ISpecialSymbol) {
             char[] chars = json.toCharArray();
             iterableCheck(chars);
 
