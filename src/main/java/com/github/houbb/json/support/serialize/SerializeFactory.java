@@ -6,6 +6,7 @@ import com.github.houbb.heaven.util.lang.reflect.ClassTypeUtil;
 import com.github.houbb.heaven.util.lang.reflect.PrimitiveUtil;
 import com.github.houbb.json.api.ISerialize;
 import com.github.houbb.json.support.serialize.aggregate.ArraySerialize;
+import com.github.houbb.json.support.serialize.aggregate.BeanSerialize;
 import com.github.houbb.json.support.serialize.aggregate.CollectionSerialize;
 import com.github.houbb.json.support.serialize.aggregate.MapSerialize;
 import com.github.houbb.json.support.serialize.math.BigDecimalSerialize;
@@ -86,7 +87,12 @@ public final class SerializeFactory {
 
         // 基本类型
         final Class refClazz = PrimitiveUtil.getReferenceType(clazz);
-        return CLASS_INSTANCE_MAP.get(refClazz);
+        ISerialize serialize = CLASS_INSTANCE_MAP.get(refClazz);
+        if(ObjectUtil.isNull(serialize)) {
+            // java bean
+            serialize = Instances.singleton(BeanSerialize.class);
+        }
+        return serialize;
     }
 
 }

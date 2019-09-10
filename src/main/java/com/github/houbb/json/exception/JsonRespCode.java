@@ -10,6 +10,11 @@ import com.github.houbb.heaven.response.respcode.RespCode;
 public enum  JsonRespCode implements RespCode {
 
     /**
+     * 序列化
+     */
+    SER_ILLEGAL_ACCESS("000001", "序列化非法访问"),
+
+    /**
      * 反序列化非字符
      */
     DES_INVALID_SYMBOL("10001", "非法字符"),
