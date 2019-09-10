@@ -19,7 +19,9 @@ public class MapTest {
         Map<String, String> map = new HashMap<>();
         map.put("123", "456");
 
-        System.out.println(JsonBs.serialize(map));
+        final String json = "{\"123\":\"456\"}";
+        Assert.assertEquals(json, JsonBs.serialize(map));
+        System.out.println(JsonBs.deserialize(json, map.getClass()));
     }
 
     @Test
@@ -27,7 +29,9 @@ public class MapTest {
         Map<Integer, Integer> map = new HashMap<>();
         map.put(123, 456);
 
-        System.out.println(JsonBs.serialize(map));
+        final String json = "{123:456}";
+        Assert.assertEquals(json, JsonBs.serialize(map));
+        System.out.println(JsonBs.deserialize(json, map.getClass()));
     }
 
 }

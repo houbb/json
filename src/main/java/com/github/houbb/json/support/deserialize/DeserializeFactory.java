@@ -81,6 +81,10 @@ public final class DeserializeFactory {
         if(ClassTypeUtil.isCollection(clazz)) {
             return Instances.singleton(CollectionDeserialize.class);
         }
+        // map
+        if(ClassTypeUtil.isMap(clazz)) {
+            return Instances.singleton(MapDeserialize.class);
+        }
 
         // 引用类型
         final Class refClazz = PrimitiveUtil.getReferenceType(clazz);
@@ -123,22 +127,6 @@ public final class DeserializeFactory {
      */
     public static IDeserialize getDeserialize(final Class clazz) {
         return getDeserialize("notnull", clazz);
-    }
-
-    /**
-     * 是否为特殊符号类
-     * （1）类型为空，直接返回 false
-     * @param clazz 类信息
-     * @return 是否
-     * @since 0.0.4
-     */
-    public static boolean isSpecialSymbol(final Class clazz) {
-        if(ObjectUtil.isNull(clazz)) {
-            return false;
-        }
-
-        IDeserialize deserialize = getDeserialize("notnull", clazz);
-        return deserialize instanceof ISpecialSymbol;
     }
 
 }
