@@ -38,7 +38,7 @@ public final class DeserializeFactory {
      * 类实例映射
      * @since 0.0.2
      */
-    private static final Map<Class, IDeserialize> CLASS_INSTANCE_MAP = new HashMap<>();
+    private static final Map<Class, IDeserialize> CLASS_INSTANCE_MAP = new IdentityHashMap<>();
 
     static {
         CLASS_INSTANCE_MAP.put(String.class, Instances.singleton(StringDeserialize.class));
@@ -52,6 +52,15 @@ public final class DeserializeFactory {
         CLASS_INSTANCE_MAP.put(Long.class, Instances.singleton(LongDeserialize.class));
         CLASS_INSTANCE_MAP.put(Float.class, Instances.singleton(FloatDeserialize.class));
         CLASS_INSTANCE_MAP.put(Double.class, Instances.singleton(DoubleDeserialize.class));
+
+        CLASS_INSTANCE_MAP.put(boolean.class, Instances.singleton(BooleanDeserialize.class));
+        CLASS_INSTANCE_MAP.put(char.class, Instances.singleton(CharacterDeserialize.class));
+        CLASS_INSTANCE_MAP.put(byte.class, Instances.singleton(ByteDeserialize.class));
+        CLASS_INSTANCE_MAP.put(short.class, Instances.singleton(ShortDeserialize.class));
+        CLASS_INSTANCE_MAP.put(int.class, Instances.singleton(IntegerDeserialize.class));
+        CLASS_INSTANCE_MAP.put(long.class, Instances.singleton(LongDeserialize.class));
+        CLASS_INSTANCE_MAP.put(float.class, Instances.singleton(FloatDeserialize.class));
+        CLASS_INSTANCE_MAP.put(double.class, Instances.singleton(DoubleDeserialize.class));
 
         CLASS_INSTANCE_MAP.put(BigDecimal.class, Instances.singleton(BigDecimalDeserialize.class));
         CLASS_INSTANCE_MAP.put(BigInteger.class, Instances.singleton(BigIntegerDeserialize.class));
@@ -73,7 +82,14 @@ public final class DeserializeFactory {
         if(JsonConst.NULL.equals(json)) {
             return Instances.singleton(NullDeserialize.class);
         }
+        // 直接映射对应处理类
+        IDeserialize deserialize = CLASS_INSTANCE_MAP.get(clazz);
+        if(ObjectUtil.isNotNull(deserialize)) {
+            return deserialize;
+        }
 
+        // 聚合类
+        // 数组
         if(ClassTypeUtil.isArray(clazz)) {
             return getArrayDeserialize(clazz);
         }
@@ -86,9 +102,8 @@ public final class DeserializeFactory {
             return Instances.singleton(MapDeserialize.class);
         }
 
-        // 引用类型
-        final Class refClazz = PrimitiveUtil.getReferenceType(clazz);
-        return CLASS_INSTANCE_MAP.get(refClazz);
+        //TODO: 添加 java bean 反序列化
+       return Instances.singleton(ObjectDeserialize.class);
     }
 
     /**

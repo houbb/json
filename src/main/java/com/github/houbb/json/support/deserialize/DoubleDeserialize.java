@@ -5,7 +5,7 @@ import com.github.houbb.json.api.IDeserialize;
 
 /**
  * Double 反序列对象
- *
+ * TODO: double/float 是否需要 f/d 后缀
  * @author binbin.hou
  * @since 0.0.2
  */

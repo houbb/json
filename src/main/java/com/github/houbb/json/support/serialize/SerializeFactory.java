@@ -49,6 +49,15 @@ public final class SerializeFactory {
         CLASS_INSTANCE_MAP.put(Float.class, Instances.singleton(FloatSerialize.class));
         CLASS_INSTANCE_MAP.put(Double.class, Instances.singleton(DoubleSerialize.class));
 
+        CLASS_INSTANCE_MAP.put(boolean.class, Instances.singleton(BooleanSerialize.class));
+        CLASS_INSTANCE_MAP.put(char.class, Instances.singleton(CharacterSerialize.class));
+        CLASS_INSTANCE_MAP.put(byte.class, Instances.singleton(ByteSerialize.class));
+        CLASS_INSTANCE_MAP.put(short.class, Instances.singleton(ShortSerialize.class));
+        CLASS_INSTANCE_MAP.put(int.class, Instances.singleton(IntegerSerialize.class));
+        CLASS_INSTANCE_MAP.put(long.class, Instances.singleton(LongSerialize.class));
+        CLASS_INSTANCE_MAP.put(float.class, Instances.singleton(FloatSerialize.class));
+        CLASS_INSTANCE_MAP.put(double.class, Instances.singleton(DoubleSerialize.class));
+
         CLASS_INSTANCE_MAP.put(BigDecimal.class, Instances.singleton(BigDecimalSerialize.class));
         CLASS_INSTANCE_MAP.put(BigInteger.class, Instances.singleton(BigIntegerSerialize.class));
 
@@ -69,7 +78,12 @@ public final class SerializeFactory {
         if(ObjectUtil.isNull(object)) {
             return Instances.singleton(NullSerialize.class);
         }
+        // 基本类型
         final Class clazz = object.getClass();
+        ISerialize serialize = CLASS_INSTANCE_MAP.get(clazz);
+        if(ObjectUtil.isNotNull(serialize)) {
+            return serialize;
+        }
 
         // 聚合类型
         // 数组
@@ -85,14 +99,8 @@ public final class SerializeFactory {
             return Instances.singleton(MapSerialize.class);
         }
 
-        // 基本类型
-        final Class refClazz = PrimitiveUtil.getReferenceType(clazz);
-        ISerialize serialize = CLASS_INSTANCE_MAP.get(refClazz);
-        if(ObjectUtil.isNull(serialize)) {
-            // java bean
-            serialize = Instances.singleton(BeanSerialize.class);
-        }
-        return serialize;
+        //bean
+        return Instances.singleton(BeanSerialize.class);
     }
 
 }
