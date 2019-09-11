@@ -3,7 +3,6 @@ package com.github.houbb.json.support.serialize;
 import com.github.houbb.heaven.support.instance.impl.Instances;
 import com.github.houbb.heaven.util.lang.ObjectUtil;
 import com.github.houbb.heaven.util.lang.reflect.ClassTypeUtil;
-import com.github.houbb.heaven.util.lang.reflect.PrimitiveUtil;
 import com.github.houbb.json.api.ISerialize;
 import com.github.houbb.json.support.serialize.aggregate.ArraySerialize;
 import com.github.houbb.json.support.serialize.aggregate.BeanSerialize;

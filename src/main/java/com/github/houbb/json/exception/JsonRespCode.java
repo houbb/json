@@ -23,7 +23,8 @@ public enum  JsonRespCode implements RespCode {
     DES_NEED_ITERABLE_START("10004", "反序列化需要["),
     DES_NEED_ITERABLE_END("10005", "反序列化需要]"),
     DES_NEED_COMMA_BLANK("10006", "反序列化需要,或者空格"),
-    DES_UNSUPPORT_TYPE("10007", "反序列化不支持的类型"),
+    DES_UN_SUPPORT_TYPE("10007", "反序列化不支持的类型"),
+    DES_ILLEGAL_ACCESS("100008", "反序列化非法访问"),
     ;
 
     /**

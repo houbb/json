@@ -3,24 +3,20 @@ package com.github.houbb.json.support.deserialize;
 import com.github.houbb.heaven.support.instance.impl.Instances;
 import com.github.houbb.heaven.util.lang.ObjectUtil;
 import com.github.houbb.heaven.util.lang.reflect.ClassTypeUtil;
-import com.github.houbb.heaven.util.lang.reflect.PrimitiveUtil;
-import com.github.houbb.heaven.util.util.ArrayUtil;
 import com.github.houbb.json.api.IDeserialize;
-import com.github.houbb.json.api.ISpecialSymbol;
 import com.github.houbb.json.constant.JsonConst;
 import com.github.houbb.json.support.deserialize.aggregate.*;
 import com.github.houbb.json.support.deserialize.math.BigDecimalDeserialize;
 import com.github.houbb.json.support.deserialize.math.BigIntegerDeserialize;
 import com.github.houbb.json.support.deserialize.util.CurrencyDeserialize;
 import com.github.houbb.json.support.deserialize.util.DateDeserialize;
-import com.github.houbb.json.support.serialize.aggregate.ArrayBooleanSerialize;
-import com.github.houbb.json.support.serialize.aggregate.ArrayCharSerialize;
-import com.github.houbb.json.support.serialize.aggregate.ArrayDoubleSerialize;
-import com.github.houbb.json.support.serialize.aggregate.CollectionSerialize;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.Currency;
+import java.util.Date;
+import java.util.IdentityHashMap;
+import java.util.Map;
 
 /**
  * 反序列化工厂类
@@ -102,8 +98,7 @@ public final class DeserializeFactory {
             return Instances.singleton(MapDeserialize.class);
         }
 
-        //TODO: 添加 java bean 反序列化
-       return Instances.singleton(ObjectDeserialize.class);
+       return Instances.singleton(BeanDeserialize.class);
     }
 
     /**

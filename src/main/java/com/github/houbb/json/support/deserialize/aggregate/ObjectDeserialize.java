@@ -71,7 +71,7 @@ public class ObjectDeserialize implements IDeserialize {
             return json.getBytes();
         }
 
-        throw new JsonRuntimeException(JsonRespCode.DES_UNSUPPORT_TYPE);
+        throw new JsonRuntimeException(JsonRespCode.DES_UN_SUPPORT_TYPE);
     }
 
     /**
