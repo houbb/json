@@ -122,6 +122,8 @@ public class BeanDeserialize<T> implements IDeserialize<T> {
             final String fieldNameKey = PunctuationConst.DOUBLE_QUOTES+fieldName+PunctuationConst.DOUBLE_QUOTES
                     +PunctuationConst.COLON;
             int fieldNameIndex = contentJson.indexOf(fieldNameKey, lastKeyIndex);
+            // 暂时使用严格模式，后续可以使用空格判断。
+            // 这里直接进行判断是不严谨的，可能其他位置也会有这种内容。
             if(fieldNameIndex < 0) {
                 continue;
             }
