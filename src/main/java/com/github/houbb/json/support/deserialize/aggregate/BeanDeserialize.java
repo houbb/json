@@ -95,7 +95,15 @@ public class BeanDeserialize<T> implements IDeserialize<T> {
      * 4. 如果需要递归定位，则应该使用递归的方式。
      *
      * TODO: 这里不支持集合、数组、对象、Map
+     *
      * 因为这其中包含 , 号，会直接打乱定位。
+     *
+     * 如果存放的元素都是普通元素，那么：
+     *
+     * 4.1 集合/数组  需要以 ] 结尾
+     * 4.2 Map/对象 需要以 } 结尾
+     *
+     * 如果存放的元素，本身包含特殊元素，则需要进一步考虑。
      * @param json json 信息
      * @param fieldList 字段列表
      * @return 结果
