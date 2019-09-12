@@ -24,7 +24,7 @@ public class BeanTest {
         Assert.assertEquals(json, JsonBs.serialize(user));
 
         User user2 = JsonBs.deserialize(json, User.class);
-        System.out.println(user2);
+        Assert.assertEquals(user.toString(), user2.toString());
     }
 
 }

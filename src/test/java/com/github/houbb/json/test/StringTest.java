@@ -23,10 +23,10 @@ public class StringTest {
     @Test
     public void escapeTest() {
         final String string = "\"123";
-        Assert.assertEquals("\"123", JsonBs.serialize(string));
+        Assert.assertEquals("\"\"123\"", JsonBs.serialize(string));
 
         final String json = "\"123\"";
-        Assert.assertEquals(string, JsonBs.deserialize(json, String.class));
+        Assert.assertEquals("123", JsonBs.deserialize(json, String.class));
     }
 
 }

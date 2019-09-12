@@ -16,17 +16,8 @@ public class CharTest {
         char c = '\'';
         final String json = "\"'\"";
 
-        System.out.println(JsonBs.serialize(c));
-        System.out.println(JsonBs.deserialize(json, char.class));
-    }
-
-    @Test
-    public void escape2Test() {
-        char c = '\\';
-        final String json = "\"'\"";
-
-        System.out.println(JsonBs.serialize(c));
-        System.out.println(JsonBs.deserialize(json, char.class));
+        Assert.assertEquals(json, JsonBs.serialize(c));
+        assert c == JsonBs.deserialize(json, char.class);
     }
 
 }

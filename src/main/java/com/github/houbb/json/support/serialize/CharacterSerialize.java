@@ -14,24 +14,6 @@ public class CharacterSerialize implements ISerialize<Character> {
 
     @Override
     public String serialize(Character character) {
-        final String escape = getEscapeChars(character);
-        return PunctuationConst.DOUBLE_QUOTES+escape+PunctuationConst.DOUBLE_QUOTES;
+        return PunctuationConst.DOUBLE_QUOTES+character+PunctuationConst.DOUBLE_QUOTES;
     }
-
-    /**
-     * 处理转移字符
-     * @param character 字符
-     * @return 结果
-     * @since 0.0.4
-     */
-    private String getEscapeChars(Character character) {
-        if('\\' == character) {
-            return "\\\\";
-        }
-        if('\'' == character) {
-            return "\\\'";
-        }
-        return character.toString();
-    }
-
 }

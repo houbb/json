@@ -21,7 +21,7 @@ public class MapTest {
 
         final String json = "{\"123\":\"456\"}";
         Assert.assertEquals(json, JsonBs.serialize(map));
-        System.out.println(JsonBs.deserialize(json, map.getClass()));
+        Assert.assertEquals(map, JsonBs.deserialize(json, map.getClass()));
     }
 
     @Test

@@ -27,11 +27,11 @@ public class CollectionTest {
 
         final String json = "[\"10\",\"20\",\"30\"]";
         Assert.assertEquals(json, JsonBs.serialize(strings));
-        System.out.println(JsonBs.deserialize(json, clazz));
+        Assert.assertEquals(strings, JsonBs.deserialize(json, clazz));
     }
 
     @Test
-    public void intTest() {
+    public void integerTest() {
         List<Integer> integers = new ArrayList<>();
         integers.add(1);
         integers.add(2);
@@ -39,7 +39,7 @@ public class CollectionTest {
 
         final String json = "[1,2,3]";
         Assert.assertEquals(json, JsonBs.serialize(integers));
-        System.out.println(JsonBs.deserialize(json, integers.getClass()));
+        Assert.assertEquals(integers, JsonBs.deserialize(json, integers.getClass()));
     }
 
 }
