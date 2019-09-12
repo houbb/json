@@ -53,7 +53,7 @@ Maven 3.X
 ```xml
 <dependency>
     <groupId>com.github.houbb</groupId>
-    <artifactId>json-core</artifactId>
+    <artifactId>json</artifactId>
     <version>最新版本</version>
 </dependency>
 ```
