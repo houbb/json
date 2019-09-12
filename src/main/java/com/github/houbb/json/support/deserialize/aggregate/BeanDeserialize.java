@@ -12,8 +12,11 @@ import com.github.houbb.heaven.util.util.CollectionUtil;
 import com.github.houbb.json.api.IDeserialize;
 import com.github.houbb.json.bs.JsonBs;
 import com.github.houbb.json.constant.JsonBeanConst;
+import com.github.houbb.json.constant.JsonIterableConst;
+import com.github.houbb.json.constant.JsonMapConst;
 import com.github.houbb.json.exception.JsonRespCode;
 import com.github.houbb.json.exception.JsonRuntimeException;
+import com.github.houbb.json.support.deserialize.DeserializeFactory;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -130,8 +133,7 @@ public class BeanDeserialize<T> implements IDeserialize<T> {
             // 从 fieldNameIndex 开始处理后续的 value 信息
             // 遍历后续的信息，直接到 , 开始终止
             int valueStartIndex = lastKeyIndex+fieldNameKey.length();
-            String valueJson = ArrayPrimitiveUtil.getStringBeforeSymbol(contentChars, valueStartIndex,
-                    CharConst.COMMA);
+            String valueJson = this.getValueJson(contentChars, valueStartIndex, fieldType);
 
             // 直接反射处理对象信息
             Object value = JsonBs.deserialize(valueJson, fieldType);
@@ -146,5 +148,26 @@ public class BeanDeserialize<T> implements IDeserialize<T> {
         return resultList;
     }
 
+    /**
+     * 获取值对应的 json 信息
+     * @param chars 字符列表
+     * @param valueStartIndex 开始下标
+     * @param fieldType 字段类型
+     * @return 结果
+     * @since 0.0.8
+     */
+    private String getValueJson(final char[] chars, final int valueStartIndex, final Class fieldType) {
+        char endChar = CharConst.COMMA;
+        if(ClassTypeUtil.isArray(fieldType)
+            || ClassTypeUtil.isCollection(fieldType)) {
+            endChar = JsonIterableConst.C_END;
+        } else if(ClassTypeUtil.isMap(fieldType)
+            || DeserializeFactory.isBeanDeserializeType(fieldType)) {
+            endChar = JsonMapConst.C_END;
+        }
+
+        return ArrayPrimitiveUtil.getStringBeforeSymbol(chars, valueStartIndex,
+                endChar);
+    }
 
 }

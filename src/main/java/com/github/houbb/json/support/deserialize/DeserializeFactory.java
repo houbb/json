@@ -139,4 +139,34 @@ public final class DeserializeFactory {
         return getDeserialize("notnull", clazz);
     }
 
+    /**
+     * 是否为 java 对象类型
+     * @param clazz class
+     * @return 是否
+     * @since 0.0.8
+     */
+    public static boolean isBeanDeserializeType(final Class clazz) {
+        if(CLASS_INSTANCE_MAP.keySet().contains(clazz)) {
+            return false;
+        }
+        // 数组
+        if(ClassTypeUtil.isArray(clazz)) {
+            return false;
+        }
+        // 集合
+        if(ClassTypeUtil.isCollection(clazz)) {
+            return false;
+        }
+        // map
+        if(ClassTypeUtil.isMap(clazz)) {
+            return false;
+        }
+        if(ClassTypeUtil.isJdk(clazz)) {
+            return false;
+        }
+
+        // 其他返回 true
+        return true;
+    }
+
 }
