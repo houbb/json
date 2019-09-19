@@ -10,6 +10,7 @@ import com.github.houbb.json.support.deserialize.math.BigDecimalDeserialize;
 import com.github.houbb.json.support.deserialize.math.BigIntegerDeserialize;
 import com.github.houbb.json.support.deserialize.util.CurrencyDeserialize;
 import com.github.houbb.json.support.deserialize.util.DateDeserialize;
+import com.github.houbb.json.support.serialize.EnumSerialize;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -85,6 +86,10 @@ public final class DeserializeFactory {
         }
 
         // 聚合类
+        // 枚举
+        if(clazz.isEnum()) {
+            return Instances.singleton(EnumDeserialize.class);
+        }
         // 数组
         if(ClassTypeUtil.isArray(clazz)) {
             return getArrayDeserialize(clazz);
@@ -147,6 +152,10 @@ public final class DeserializeFactory {
      */
     public static boolean isBeanDeserializeType(final Class clazz) {
         if(CLASS_INSTANCE_MAP.keySet().contains(clazz)) {
+            return false;
+        }
+        // 枚举
+        if(clazz.isEnum()) {
             return false;
         }
         // 数组

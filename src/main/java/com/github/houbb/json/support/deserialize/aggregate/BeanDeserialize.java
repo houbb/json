@@ -166,8 +166,13 @@ public class BeanDeserialize<T> implements IDeserialize<T> {
             endChar = JsonMapConst.C_END;
         }
 
-        return ArrayPrimitiveUtil.getStringBeforeSymbol(chars, valueStartIndex,
+        // 对于数组的反序列化，最后的 ] 缺失了。同理 map/bean 也会存在相同的问题。
+        String tempString = ArrayPrimitiveUtil.getStringBeforeSymbol(chars, valueStartIndex,
                 endChar);
+        if(endChar != CharConst.COMMA) {
+            tempString += endChar;
+        }
+        return tempString;
     }
 
 }

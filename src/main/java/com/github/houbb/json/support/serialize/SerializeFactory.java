@@ -85,6 +85,10 @@ public final class SerializeFactory {
         }
 
         // 聚合类型
+        // 枚举
+        if(clazz.isEnum()) {
+            return Instances.singleton(EnumSerialize.class);
+        }
         // 数组
         if(ClassTypeUtil.isArray(clazz)) {
             return Instances.singleton(ArraySerialize.class);
