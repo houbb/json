@@ -26,7 +26,7 @@ public class BeanSerialize implements ISerialize {
 
     @Override
     public String serialize(Object o) {
-        List<Field> fieldList = ClassUtil.getAllFieldList(o.getClass());
+        List<Field> fieldList = ClassUtil.getModifyableFieldList(o.getClass());
         if(CollectionUtil.isEmpty(fieldList)) {
             return JsonBeanConst.NULL;
         }

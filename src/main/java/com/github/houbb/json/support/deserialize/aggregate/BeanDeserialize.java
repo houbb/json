@@ -37,7 +37,7 @@ public class BeanDeserialize<T> implements IDeserialize<T> {
             return (T) Instances.singleton(ObjectDeserialize.class)
                     .deserialize(json, aClass);
         }
-        List<Field> fieldList = ClassUtil.getAllFieldList(aClass);
+        List<Field> fieldList = ClassUtil.getModifyableFieldList(aClass);
         if(CollectionUtil.isEmpty(fieldList)) {
             return (T) Instances.singleton(ObjectDeserialize.class)
                     .deserialize(json, aClass);
@@ -120,6 +120,7 @@ public class BeanDeserialize<T> implements IDeserialize<T> {
         int lastKeyIndex = 0;
         for(Field field : fieldList) {
             String fieldName = field.getName();
+
             Class fieldType = field.getType();
 
             final String fieldNameKey = PunctuationConst.DOUBLE_QUOTES+fieldName+PunctuationConst.DOUBLE_QUOTES
