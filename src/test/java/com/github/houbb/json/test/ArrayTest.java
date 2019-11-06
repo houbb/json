@@ -76,5 +76,4 @@ public class ArrayTest {
         System.out.println(JsonBs.deserializeArray(json, DefaultBeanDefinition.class));
     }
 
-
 }
