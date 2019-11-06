@@ -1,8 +1,15 @@
 package com.github.houbb.json.bs;
 
 import com.github.houbb.heaven.support.instance.impl.Instances;
+import com.github.houbb.heaven.util.guava.Guavas;
 import com.github.houbb.heaven.util.lang.StringUtil;
+import com.github.houbb.heaven.util.lang.reflect.ClassTypeUtil;
+import com.github.houbb.json.constant.JsonIterableConst;
 import com.github.houbb.json.core.DefaultJson;
+import com.github.houbb.json.support.scanner.impl.JsonArrayObjectScanner;
+import com.github.houbb.json.support.scanner.impl.JsonIterableScanner;
+
+import java.util.List;
 
 /**
  * Json 引导类
@@ -44,6 +51,43 @@ public final class JsonBs {
      */
     public static <T> T deserialize(String json, Class<T> tClass) {
         return Instances.threadLocal(DefaultJson.class).deserialize(json, tClass);
+    }
+
+    /**
+     * 反序列化数组对象
+     * @param json json
+     * @param tClass 类信息
+     * @param <T> 泛型
+     * @return 反序列化后的对象列表
+     * @since 0.1.2
+     */
+    public static <T> List<T> deserializeArray(String json, Class<T> tClass) {
+        if(StringUtil.isEmpty(json)) {
+            return null;
+        }
+
+        // 空列表
+        List<T> resultList = Guavas.newArrayList();
+        final String trimJson = json.trim();
+        if(JsonIterableConst.EMPTY.equals(trimJson)) {
+            return resultList;
+        }
+
+        //非对象的常见 JDK 类型
+        List<String> stringList;
+        if(ClassTypeUtil.isJdk(tClass)) {
+            stringList = Instances.singleton(JsonIterableScanner.class).scan(trimJson);
+        } else {
+            // 对象类型循环处理
+            stringList = Instances.singleton(JsonArrayObjectScanner.class).scan(trimJson);
+        }
+        for(String entryJson : stringList) {
+            String trim = StringUtil.trim(entryJson);
+            T t = deserialize(trim, tClass);
+            resultList.add(t);
+        }
+
+        return resultList;
     }
 
     /**

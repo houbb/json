@@ -1,6 +1,7 @@
 package com.github.houbb.json.test;
 
 import com.github.houbb.json.bs.JsonBs;
+import com.github.houbb.json.test.model.DefaultBeanDefinition;
 import com.github.houbb.json.test.model.User;
 
 import org.junit.Assert;
@@ -25,6 +26,18 @@ public class BeanTest {
 
         User user2 = JsonBs.deserialize(json, User.class);
         Assert.assertEquals(user.toString(), user2.toString());
+    }
+
+    /**
+     * 定义测试
+     * @since 0.1.2
+     */
+    @Test
+    public void defineTest() {
+        final String json = "[\n" +
+                "{\"name\":\"apple\",\"className\":\"com.github.houbb.ioc.test.service.Apple\"}\n" +
+                "]";
+        System.out.println(JsonBs.deserialize(json, DefaultBeanDefinition.class));
     }
 
 }

@@ -1,6 +1,7 @@
 package com.github.houbb.json.test;
 
 import com.github.houbb.json.bs.JsonBs;
+import com.github.houbb.json.test.model.DefaultBeanDefinition;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -49,5 +50,31 @@ public class ArrayTest {
         //[1, 2, 3]
         System.out.println(Arrays.toString(JsonBs.deserialize(json, Integer[].class)));
     }
+
+    /**
+     * 数组转换测试
+     * @since 0.1.2
+     */
+    @Test
+    public void parseArrayTest() {
+        final String json = "[{\"name\":\"apple\",\"className\":\"com.github.houbb.ioc.test.service.Apple\"}]";
+        System.out.println(JsonBs.deserializeArray(json, DefaultBeanDefinition.class));
+
+        final String jsonJsk = "[1,2,3]";
+        System.out.println(JsonBs.deserializeArray(jsonJsk, Integer.class));
+    }
+
+    /**
+     * 数组转换测试-换行
+     * @since 0.1.2
+     */
+    @Test
+    public void parseArrayReturnTest() {
+        final String json = "[\n" +
+                "{\"name\":\"apple\",\"className\":\"com.github.houbb.ioc.test.service.Apple\"}\n" +
+                "]";
+        System.out.println(JsonBs.deserializeArray(json, DefaultBeanDefinition.class));
+    }
+
 
 }

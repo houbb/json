@@ -27,4 +27,16 @@ public final class JsonBeanConst {
      */
     public static final String END = "}";
 
+    /**
+     * 开始符号
+     * @since 0.1.2
+     */
+    public static final char C_START = '{';
+
+    /**
+     * 结束字符
+     * @since 0.1.2
+     */
+    public static final char C_END = '}';
+
 }
