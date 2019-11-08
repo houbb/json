@@ -87,7 +87,7 @@ public class JsonArrayObjectScanner implements IJsonScanner<String> {
      * @return char
      */
     private char getPreNotBlankChar(final String original, final int index) {
-        for(int i = index; i > 0; i--) {
+        for(int i = index-1; i > 0; i--) {
             char currentChar = original.charAt(i);
             if(currentChar != ' '
                 && currentChar != '\n'

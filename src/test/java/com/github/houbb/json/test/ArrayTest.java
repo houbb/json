@@ -76,4 +76,15 @@ public class ArrayTest {
         System.out.println(JsonBs.deserializeArray(json, DefaultBeanDefinition.class));
     }
 
+    @Test
+    public void parseMultiArrayTest() {
+        final String json = "[\n" +
+                "{\"name\":\"apple\",\"className\":\"com.github.houbb.ioc.test.service.Apple\"},\n" +
+                "{\"name\":\"apple2\",\"className\":\"com.github.houbb.ioc.test.service.Apple\"}\n" +
+                "]";
+
+        System.out.println(JsonBs.deserializeArray(json, DefaultBeanDefinition.class));
+    }
+
+
 }
