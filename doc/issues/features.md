@@ -41,3 +41,23 @@ https://github.com/buger/jsonparser
 http://jsoniter.com/
 
 [json 汇总](https://github.com/akullpp/awesome-java#json)
+
+
+# 其他特性
+
+## 基于 getter/setter
+
+可以选择，是否基于 field
+
+## compress
+
+压缩信息
+
+## beauty
+
+美化输出
+
+## isCorrect
+
+判断格式是否正确
+
