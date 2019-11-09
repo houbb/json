@@ -23,7 +23,7 @@ public final class DeserializeUtil {
      * @return 是否
      * @since 0.0.6
      */
-    public static boolean isSpeialSysmbol(final IDeserialize deserialize) {
+    public static boolean isSpecialSymbol(final IDeserialize deserialize) {
         if(ObjectUtil.isNull(deserialize)) {
             return false;
         }
@@ -37,7 +37,10 @@ public final class DeserializeUtil {
      * @return 是否
      * @since 0.0.6
      */
-    public static boolean isNotSpeialSysmbol(final IDeserialize deserialize) {
-        return !isSpeialSysmbol(deserialize);
+    public static boolean isNotSpecialSymbol(final IDeserialize deserialize) {
+        return !isSpecialSymbol(deserialize);
     }
+
+
+
 }

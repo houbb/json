@@ -25,6 +25,8 @@ public enum  JsonRespCode implements RespCode {
     DES_NEED_COMMA_BLANK("10006", "反序列化需要,或者空格"),
     DES_UN_SUPPORT_TYPE("10007", "反序列化不支持的类型"),
     DES_ILLEGAL_ACCESS("100008", "反序列化非法访问"),
+    DES_NOT_MATCH_BEAN_END("100009", "反序列化【}】符号无法匹配"),
+    DES_CAN_NOT_CAST_TO_TYPE("100010", "转化为指定类型失败"),
     ;
 
     /**

@@ -8,6 +8,7 @@ import com.github.houbb.json.constant.JsonIterableConst;
 import com.github.houbb.json.core.DefaultJson;
 import com.github.houbb.json.support.scanner.impl.JsonArrayObjectScanner;
 import com.github.houbb.json.support.scanner.impl.JsonIterableScanner;
+import com.github.houbb.json.util.JsonIterableUtil;
 
 import java.util.List;
 
@@ -73,14 +74,9 @@ public final class JsonBs {
             return resultList;
         }
 
-        //非对象的常见 JDK 类型
-        List<String> stringList;
-        if(ClassTypeUtil.isJdk(tClass)) {
-            stringList = Instances.singleton(JsonIterableScanner.class).scan(trimJson);
-        } else {
-            // 对象类型循环处理
-            stringList = Instances.singleton(JsonArrayObjectScanner.class).scan(trimJson);
-        }
+        // 分割处理
+        List<String> stringList = JsonIterableUtil.getIterableSplitJson(json, tClass);
+
         for(String entryJson : stringList) {
             String trim = StringUtil.trim(entryJson);
             T t = deserialize(trim, tClass);

@@ -1,0 +1,61 @@
+package com.github.houbb.json.support.metadata.field.impl;
+
+import com.github.houbb.json.support.metadata.field.IFieldMeta;
+
+/**
+ * <p> project: json-IFieldMeta </p>
+ * <p> create on 2019/11/9 23:08 </p>
+ *
+ * @author Administrator
+ * @since 0.1.4
+ */
+public class FieldMeta implements IFieldMeta {
+
+    /**
+     * 字段名称
+     * @since 0.1.4
+     */
+    private String name;
+
+    /**
+     * 字段类型
+     * @since 0.1.4
+     */
+    private Class type;
+
+    /**
+     * 字段值
+     * @since 0.1.4
+     */
+    private Object value;
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public Class getType() {
+        return type;
+    }
+
+    @Override
+    public void setType(Class type) {
+        this.type = type;
+    }
+
+    @Override
+    public Object getValue() {
+        return value;
+    }
+
+    @Override
+    public void setValue(Object value) {
+        this.value = value;
+    }
+}

@@ -5,6 +5,7 @@ import com.github.houbb.heaven.constant.PunctuationConst;
 import com.github.houbb.heaven.support.instance.impl.Instances;
 import com.github.houbb.heaven.support.tuple.impl.Pair;
 import com.github.houbb.heaven.util.guava.Guavas;
+import com.github.houbb.heaven.util.lang.StringUtil;
 import com.github.houbb.heaven.util.lang.reflect.ClassTypeUtil;
 import com.github.houbb.heaven.util.lang.reflect.ClassUtil;
 import com.github.houbb.heaven.util.lang.reflect.ReflectFieldUtil;
@@ -18,53 +19,88 @@ import com.github.houbb.json.constant.JsonMapConst;
 import com.github.houbb.json.exception.JsonRespCode;
 import com.github.houbb.json.exception.JsonRuntimeException;
 import com.github.houbb.json.support.deserialize.DeserializeFactory;
+import com.github.houbb.json.support.deserialize.handler.JsonInterfaceInvocationHandler;
+import com.github.houbb.json.support.metadata.field.IFieldMeta;
+import com.github.houbb.json.support.metadata.field.impl.FieldMeta;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.List;
 
 /**
  * 对象反序列化
  * @author binbin.hou
- * @since 0.0.5
+ * @since 0.1.4
  * @param <T> 泛型
  */
-public class BeanDeserialize<T> implements IDeserialize<T> {
+public class InterfaceDeserialize<T> implements IDeserialize<T> {
 
-    @SuppressWarnings("unchecked")
     @Override
-    public T deserialize(String json, Class aClass) {
-        // 类如果是 java 对象才处理
-        if(ClassTypeUtil.isJdk(aClass)) {
-            return (T) Instances.singleton(ObjectDeserialize.class)
-                    .deserialize(json, aClass);
-        }
-        List<Field> fieldList = ClassUtil.getModifyableFieldList(aClass);
-        if(CollectionUtil.isEmpty(fieldList)) {
-            return (T) Instances.singleton(ObjectDeserialize.class)
-                    .deserialize(json, aClass);
-        }
-
-        T instance = (T) ClassUtil.newInstance(aClass);
+    public T deserialize(String json, Class<T> aClass) {
+        // 创建实例
+        final JsonInterfaceInvocationHandler invocationHandler = new JsonInterfaceInvocationHandler();
+        T instance = this.createInstance(aClass, invocationHandler);
         if(JsonBeanConst.NULL.equals(json)) {
             return instance;
         }
+
         // 处理
-        List<Pair<Field, Object>> fieldPairs = getFieldValueList(json, fieldList);
-        if(CollectionUtil.isEmpty(fieldPairs)) {
+        final List<IFieldMeta> fieldList = buildFieldMetaList(aClass);
+        if(CollectionUtil.isEmpty(fieldList)) {
             return instance;
         }
+
+        // 填充值信息
+        this.fillFieldValue(json, fieldList);
+
         // 循环设置值
-        try {
-            for(Pair<Field, Object> pair : fieldPairs) {
-                Field field = pair.getValueOne();
-                Object value = pair.getValueTwo();
-                field.set(instance, value);
-            }
-        } catch (IllegalAccessException e) {
-            throw new JsonRuntimeException(JsonRespCode.DES_ILLEGAL_ACCESS);
+        for(IFieldMeta fieldMeta : fieldList) {
+            invocationHandler.setFieldValue(fieldMeta.getName(), fieldMeta.getValue());
         }
 
         return instance;
+    }
+
+    /**
+     * 构建字段原始数据信息
+     * @param tClass 类型
+     * @return 结果信息列表
+     * @since 0.1.4
+     */
+    private List<IFieldMeta> buildFieldMetaList(final Class tClass) {
+        List<IFieldMeta> list = Guavas.newArrayList();
+
+        // 全部通过 get 获取
+        Method[] methods = tClass.getMethods();
+        for(Method method : methods) {
+            final String methodName = method.getName();
+            if(method.getName().startsWith("get")) {
+                String fieldName = StringUtil.firstToLowerCase(methodName.substring(3));
+
+                FieldMeta fieldMeta = new FieldMeta();
+                fieldMeta.setName(fieldName);
+                fieldMeta.setType(method.getReturnType());
+                list.add(fieldMeta);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * 创建对象实例
+     * @param clazz 类信息
+     * @param handler handler 处理类
+     * @return 创建的实例对象
+     * @since 0.1.4
+     */
+    @SuppressWarnings("unchecked")
+    private T createInstance(final Class<T> clazz,
+                                  final InvocationHandler handler) {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        return (T) Proxy.newProxyInstance(loader, new Class<?>[] { clazz }, handler);
     }
 
     /**
@@ -110,16 +146,14 @@ public class BeanDeserialize<T> implements IDeserialize<T> {
      * 如果存放的元素，本身包含特殊元素，则需要进一步考虑。
      * @param json json 信息
      * @param fieldList 字段列表
-     * @return 结果
      * @since 0.0.7
      */
-    private List<Pair<Field, Object>> getFieldValueList(final String json, final List<Field> fieldList) {
-        List<Pair<Field, Object>> resultList = Guavas.newArrayList(fieldList.size());
+    private void fillFieldValue(final String json, final List<IFieldMeta> fieldList) {
         final String contentJson = json.substring(1, json.length()-1);
         final char[] contentChars = contentJson.toCharArray();
 
         int lastKeyIndex = 0;
-        for(Field field : fieldList) {
+        for(IFieldMeta field : fieldList) {
             String fieldName = field.getName();
 
             Class fieldType = field.getType();
@@ -138,22 +172,12 @@ public class BeanDeserialize<T> implements IDeserialize<T> {
             String valueJson = this.getValueJson(contentChars, valueStartIndex, fieldType);
 
             // 直接反射处理对象信息
-            Object value;
-            if(ClassTypeUtil.isCollection(fieldType)) {
-                fieldType = ReflectFieldUtil.getComponentType(field, 0);
-                value = JsonBs.deserializeArray(valueJson, fieldType);
-            } else {
-                value = JsonBs.deserialize(valueJson, fieldType);
-            }
-            Pair<Field, Object> pair = Pair.of(field, value);
-            resultList.add(pair);
-
+            Object value = JsonBs.deserialize(valueJson, fieldType);
+            field.setValue(value);
             // 更新下标信息
             // key 的开始+value 的长度，加一个逗号的长度。
             lastKeyIndex = valueStartIndex+valueJson.length()+1;
         }
-
-        return resultList;
     }
 
     /**

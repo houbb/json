@@ -137,5 +137,19 @@ public class DefaultBeanDefinition implements BeanDefinition {
     public void setConstructorArgList(List<ConstructorArgDefinition> constructorArgList) {
         this.constructorArgList = constructorArgList;
     }
+
+    @Override
+    public String toString() {
+        return "DefaultBeanDefinition{" +
+                "name='" + name + '\'' +
+                ", className='" + className + '\'' +
+                ", scope='" + scope + '\'' +
+                ", lazyInit=" + lazyInit +
+                ", initialize='" + initialize + '\'' +
+                ", destroy='" + destroy + '\'' +
+                ", factoryMethod='" + factoryMethod + '\'' +
+                ", constructorArgList=" + constructorArgList +
+                '}';
+    }
 }
 

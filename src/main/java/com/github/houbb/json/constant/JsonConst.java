@@ -16,6 +16,12 @@ public final class JsonConst {
     public static final String NULL = "null";
 
     /**
+     * 代理类名称
+     * @since 0.1.4
+     */
+    public static final String PROXY_CLASS_NAME = "com.sun.proxy.$Proxy";
+
+    /**
      * 是否为空 json
      * @param json json 信息
      * @return 是否

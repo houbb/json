@@ -55,4 +55,14 @@ public class DefaultConstructorArgDefinition implements ConstructorArgDefinition
     public void setRef(String ref) {
         this.ref = ref;
     }
+
+    @Override
+    public String toString() {
+        return "DefaultConstructorArgDefinition{" +
+                "type='" + type + '\'' +
+                ", value='" + value + '\'' +
+                ", ref='" + ref + '\'' +
+                '}';
+    }
+
 }

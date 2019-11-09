@@ -102,6 +102,10 @@ public final class DeserializeFactory {
         if(ClassTypeUtil.isMap(clazz)) {
             return Instances.singleton(MapDeserialize.class);
         }
+        // 接口
+        if(clazz.isInterface()) {
+            return Instances.singleton(InterfaceDeserialize.class);
+        }
 
        return Instances.singleton(BeanDeserialize.class);
     }
@@ -151,7 +155,7 @@ public final class DeserializeFactory {
      * @since 0.0.8
      */
     public static boolean isBeanDeserializeType(final Class clazz) {
-        if(CLASS_INSTANCE_MAP.keySet().contains(clazz)) {
+        if(CLASS_INSTANCE_MAP.containsKey(clazz)) {
             return false;
         }
         // 枚举

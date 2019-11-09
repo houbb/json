@@ -10,10 +10,17 @@ import com.github.houbb.heaven.util.util.CollectionUtil;
 import com.github.houbb.json.bs.JsonBs;
 import com.github.houbb.json.constant.JsonBeanConst;
 import com.github.houbb.json.constant.JsonIterableConst;
+import com.github.houbb.json.exception.JsonRespCode;
+import com.github.houbb.json.exception.JsonRuntimeException;
 import com.github.houbb.json.support.scanner.IJsonScanner;
+import com.github.houbb.json.support.scanner.status.IBeanSplitterStatus;
+import com.github.houbb.json.support.scanner.status.IDoubleQuotesStatus;
+import com.github.houbb.json.support.scanner.status.impl.BeanSplitterStatus;
+import com.github.houbb.json.support.scanner.status.impl.DoubleQuotesStatus;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * 可遍历扫描接口类
@@ -49,53 +56,53 @@ public class JsonArrayObjectScanner implements IJsonScanner<String> {
 
         // 去除开头结尾
         final String contentJson = json.substring(1, json.length()-1);
-        List<Integer> commaIndexList = StringUtil.getIndexList(contentJson, CharConst.COMMA, true);
-        // 获取对象之间的分割符号
-        List<Integer> objectSplitIndexes = getObjectSplitIndexes(contentJson, commaIndexList);
-        return StringUtil.splitByIndexes(contentJson, objectSplitIndexes);
+        return getObjectJsonList(contentJson);
     }
 
     /**
-     * 获取对象间的分割符号
-     * 1. 这里需要进行回溯，实际上性能有所降低，建议直接加一个方法，可以指定前面的符号是什么。
-     * @param contentJson 完整的 json 信息
-     * @param commaIndexList 对象下标志信息
-     * @return 对象间的分割索引
-     * @since 0.1.2
+     * 获取分开的 json 对象信息
+     * （1）获取第一个左边花括号，push 堆栈中。
+     * （2）当碰到结尾的右边花括号时，pop 出栈。
+     *
+     * 专门负责，比如 "" 等各种转移字符的处理。
+     * @param contentJson json 内容
+     * @return 结果列表
+     * @since 0.1.4
      */
-    @CommonEager
-    private List<Integer> getObjectSplitIndexes(final String contentJson, final List<Integer> commaIndexList) {
-        if(CollectionUtil.isEmpty(commaIndexList)) {
-            return Guavas.newArrayList();
-        }
+    private List<String> getObjectJsonList(final String contentJson) {
+        List<String> stringList = Guavas.newArrayList();
 
-        List<Integer> resultList = Guavas.newArrayList();
-        for(Integer index : commaIndexList) {
-            char preChar = getPreNotBlankChar(contentJson, index);
-            if(JsonBeanConst.C_END == preChar) {
-                resultList.add(index);
+        final IDoubleQuotesStatus quotesStatus = new DoubleQuotesStatus();
+        final IBeanSplitterStatus splitterStatus = new BeanSplitterStatus();
+
+        char[] chars = contentJson.toCharArray();
+        StringBuilder beanJsonBuilder = new StringBuilder();
+        for(char c : chars) {
+            // 设置当前字段
+            quotesStatus.currentChar(c);
+
+            // 不处于字符串中，进行 bean 符号的相关处理。
+            if(!quotesStatus.isInQuote()) {
+                // 分隔符状态流转
+                splitterStatus.currentChar(c);
+            }
+
+            // 如果对象为开始，则添加进入
+            if(splitterStatus.isBeanStart()) {
+                beanJsonBuilder.append(c);
+            }
+            // 结束，则将该字符串放入列表中
+            // 重置 Builder
+            if(splitterStatus.isBeanEnd()) {
+                beanJsonBuilder.append(c);
+                String beanJson = beanJsonBuilder.toString();
+                stringList.add(beanJson.trim());
+
+                beanJsonBuilder = new StringBuilder();
             }
         }
-        return resultList;
-    }
 
-    /**
-     * 获取前一个非空的 char
-     * （1）如果已经遍历完，则直接返回一个空
-     * @param original 原始信息
-     * @param index 下表
-     * @return char
-     */
-    private char getPreNotBlankChar(final String original, final int index) {
-        for(int i = index-1; i > 0; i--) {
-            char currentChar = original.charAt(i);
-            if(currentChar != ' '
-                && currentChar != '\n'
-                && currentChar != '\r') {
-                return currentChar;
-            }
-        }
-        return ' ';
+        return stringList;
     }
 
 }
