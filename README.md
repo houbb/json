@@ -3,8 +3,6 @@
 [json](https://github.com/houbb/json) 是 java 实现的序列化 json 框架。
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.houbb/json/badge.svg)](http://mvnrepository.com/artifact/com.github.houbb/json)
-[![Build Status](https://www.travis-ci.org/houbb/json.svg?branch=master)](https://www.travis-ci.org/houbb/json)
-[![Coverage Status](https://coveralls.io/repos/github/houbb/json/badge.svg?branch=master)](https://coveralls.io/github/houbb/json?branch=master)
 
 ## 特性
 
