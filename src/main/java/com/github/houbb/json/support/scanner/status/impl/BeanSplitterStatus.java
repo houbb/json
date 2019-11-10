@@ -1,12 +1,10 @@
 package com.github.houbb.json.support.scanner.status.impl;
 
 import com.github.houbb.heaven.annotation.NotThreadSafe;
-import com.github.houbb.heaven.constant.CharConst;
 import com.github.houbb.json.constant.JsonBeanConst;
 import com.github.houbb.json.exception.JsonRespCode;
 import com.github.houbb.json.exception.JsonRuntimeException;
 import com.github.houbb.json.support.scanner.status.IBeanSplitterStatus;
-import com.github.houbb.json.support.scanner.status.IDoubleQuotesStatus;
 
 import java.util.Stack;
 

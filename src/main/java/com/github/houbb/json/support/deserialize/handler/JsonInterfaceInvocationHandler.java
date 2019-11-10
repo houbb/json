@@ -1,10 +1,9 @@
 package com.github.houbb.json.support.deserialize.handler;
 
-import com.github.houbb.heaven.util.lang.ObjectUtil;
 import com.github.houbb.heaven.util.lang.StringUtil;
+import com.github.houbb.heaven.util.lang.reflect.TypeUtil;
 import com.github.houbb.heaven.util.util.ArrayUtil;
 import com.github.houbb.json.bs.JsonBs;
-import com.github.houbb.json.util.TypeUtils;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -58,11 +57,18 @@ public class JsonInterfaceInvocationHandler implements InvocationHandler {
             if("hashCode".equals(methodName)) {
                 return this.hashCode();
             }
-            //2. getter/is
+            //3. 方法返回类型
+            if("getReturnType".equals(methodName)) {
+                return method.getReturnType();
+            }
+            if("getGenericReturnType".equals(methodName)) {
+                return method.getGenericReturnType();
+            }
+            //4.. getter/is
             String fieldName = getFieldName(methodName);
             Object fieldValue = this.map.get(fieldName);
             final Class returnType = method.getReturnType();
-            return TypeUtils.cast(fieldValue, returnType);
+            return TypeUtil.cast(fieldValue, returnType);
         }
 
         // setter

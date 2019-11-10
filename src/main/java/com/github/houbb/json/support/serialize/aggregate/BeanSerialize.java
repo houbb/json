@@ -70,6 +70,7 @@ public class BeanSerialize implements ISerialize {
      * @return 结果列表
      * @since 0.1.4
      */
+    @SuppressWarnings("unchecked")
     private List<IFieldMeta> buildFieldList(final Object instance) {
         final Class tClass = instance.getClass();
 

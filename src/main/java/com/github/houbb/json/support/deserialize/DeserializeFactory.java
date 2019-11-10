@@ -10,7 +10,6 @@ import com.github.houbb.json.support.deserialize.math.BigDecimalDeserialize;
 import com.github.houbb.json.support.deserialize.math.BigIntegerDeserialize;
 import com.github.houbb.json.support.deserialize.util.CurrencyDeserialize;
 import com.github.houbb.json.support.deserialize.util.DateDeserialize;
-import com.github.houbb.json.support.serialize.EnumSerialize;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -102,8 +101,9 @@ public final class DeserializeFactory {
         if(ClassTypeUtil.isMap(clazz)) {
             return Instances.singleton(MapDeserialize.class);
         }
-        // 接口
-        if(clazz.isInterface()) {
+        // 接口获这代理类
+        if(clazz.isInterface()
+            || clazz.getName().startsWith(JsonConst.PROXY_CLASS_NAME)) {
             return Instances.singleton(InterfaceDeserialize.class);
         }
 

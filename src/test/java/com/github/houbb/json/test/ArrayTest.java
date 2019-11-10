@@ -171,20 +171,28 @@ public class ArrayTest {
         BeanDefinition weightApple = new DefaultBeanDefinition();
         weightApple.setName("weightApple");
         weightApple.setClassName("com.github.houbb.ioc.test.service.ColorWeightApple");
+
         ConstructorArgDefinition argRef = new DefaultConstructorArgDefinition();
         argRef.setRef("apple");
+
         ConstructorArgDefinition argWeight = new DefaultConstructorArgDefinition();
         argWeight.setType("java.lang.Integer");
         argWeight.setValue("10");
+
         weightApple.setConstructorArgList(Arrays.asList(argRef, argWeight));
         beanDefinitions.add(weightApple);
 
         BeanDefinition apple = new DefaultBeanDefinition();
         apple.setName("apple");
-        apple.setClassName("com.github.houbb.ioc.test.service.Apple");
+        apple.setClassName("com.github.houbb.ioc.test.service.ColorApple");
         beanDefinitions.add(apple);
 
-        System.out.println(JsonBs.serialize(beanDefinitions));
+        String json = JsonBs.serialize(beanDefinitions);
+        System.out.println(json);
+
+        System.out.println("===========================");
+
+        System.out.println(JsonBs.deserializeArray(json, BeanDefinition.class));
     }
 
 }

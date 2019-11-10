@@ -2,6 +2,8 @@ package com.github.houbb.json.support.metadata.field.impl;
 
 import com.github.houbb.json.support.metadata.field.IFieldMeta;
 
+import java.lang.reflect.Field;
+
 /**
  * <p> project: json-IFieldMeta </p>
  * <p> create on 2019/11/9 23:08 </p>
@@ -28,6 +30,18 @@ public class FieldMeta implements IFieldMeta {
      * @since 0.1.4
      */
     private Object value;
+
+    /**
+     * 元素类型
+     * @since 0.1.4
+     */
+    private Class componentType;
+
+    /**
+     * 原始字段信息列表
+     * @since 0.1.4
+     */
+    private Field field;
 
     @Override
     public String getName() {
@@ -57,5 +71,25 @@ public class FieldMeta implements IFieldMeta {
     @Override
     public void setValue(Object value) {
         this.value = value;
+    }
+
+    @Override
+    public Class getComponentType() {
+        return componentType;
+    }
+
+    @Override
+    public void setComponentType(Class componentType) {
+        this.componentType = componentType;
+    }
+
+    @Override
+    public Field getField() {
+        return field;
+    }
+
+    @Override
+    public void setField(Field field) {
+        this.field = field;
     }
 }

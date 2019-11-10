@@ -45,6 +45,8 @@ http://jsoniter.com/
 
 # 其他特性
 
+## 是否显示 Null 值
+
 ## 基于 getter/setter
 
 可以选择，是否基于 field
