@@ -1,5 +1,8 @@
 package com.github.houbb.json.core;
 
+import com.github.houbb.heaven.util.lang.ObjectUtil;
+import com.github.houbb.heaven.util.lang.reflect.ClassTypeUtil;
+import com.github.houbb.heaven.util.lang.reflect.PrimitiveUtil;
 import com.github.houbb.json.api.IDeserialize;
 import com.github.houbb.json.api.IJson;
 import com.github.houbb.json.api.ISerialize;
@@ -30,7 +33,15 @@ public class DefaultJson implements IJson {
     @Override
     public <T> T deserialize(String json, Class<T> tClass) {
         IDeserialize deserialize = DeserializeFactory.getDeserialize(json, tClass);
-        return (T) deserialize.deserialize(json, tClass);
+        T result = (T) deserialize.deserialize(json, tClass);
+
+        // 基本类型且返回类型为 null
+        if(ObjectUtil.isNull(result)
+            && ClassTypeUtil.isPrimitive(tClass)) {
+            return (T) PrimitiveUtil.getDefaultValue(tClass);
+        }
+
+        return result;
     }
 
 }

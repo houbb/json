@@ -29,4 +29,16 @@ public class StringTest {
         Assert.assertEquals("123", JsonBs.deserialize(json, String.class));
     }
 
+    /**
+     * @since 0.1.5
+     */
+    @Test
+    public void noDoubleQuotesTest() {
+        final String string = "123";
+        Assert.assertEquals("\"123\"", JsonBs.serialize(string));
+
+        final String json = "123";
+        Assert.assertEquals("123", JsonBs.deserialize(json, String.class));
+    }
+
 }
