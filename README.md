@@ -14,12 +14,6 @@
 
 - 极简的 API
 
-## 后续特性
-
-- `@Field` 注解的支持
-
-- 反序列化对象的完整性支持，目前只支持基础的反序列化。
-
 ## 为何创作
 
 - 解决 fastJson 中的不足
@@ -54,202 +48,32 @@ Maven 3.X
 <dependency>
     <groupId>com.github.houbb</groupId>
     <artifactId>json</artifactId>
-    <version>最新版本</version>
+    <version>0.1.5</version>
 </dependency>
 ```
 
 ## 基本例子
 
-```java
-import JsonBs;
-import org.junit.Assert;
-import org.junit.Test;
-
-/**
- * null 测试
- * @author binbin.hou
- * @since 0.0.1
- */
-public class NullTest {
-
-    @Test
-    public void nullTest() {
-        final String string = null;
-        Assert.assertEquals("null", JsonBs.serialize(string));
-
-        final String result = JsonBs.deserialize("null", String.class);
-        Assert.assertNull(result);
-    }
-
-}
-```
-
-# 测试案例
-
-以下演示所有测试代码见
-
-> [test 模块](https://github.com/houbb/json/tree/master/src/test/java/com/github/houbb/json/test)
-
-# 字符串和 char 测试案例
-
-## 字符串
+### 序列化
 
 ```java
- @Test
-public void commonTest() {
-    final String string = "123";
-    Assert.assertEquals("\"123\"", JsonBs.serialize(string));
-
-    final String json = "\"123\"";
-    Assert.assertEquals(string, JsonBs.deserialize(json, String.class));
-}
-
-@Test
-public void escapeTest() {
-    final String string = "\"123";
-    Assert.assertEquals("\"\"123\"", JsonBs.serialize(string));
-
-    final String json = "\"123\"";
-    Assert.assertEquals("123", JsonBs.deserialize(json, String.class));
-}
+int[] ints = new int[]{1,2,3};
+String json = JsonBs.serialize(ints);
+Assert.assertEquals("[1,2,3]", json);
 ```
 
-## char 类型
+### 反序列化
 
 ```java
-@Test
-public void escapeTest() {
-    char c = '\'';
-    final String json = "\"'\"";
-
-    Assert.assertEquals(json, JsonBs.serialize(c));
-    assert c == JsonBs.deserialize(json, char.class);
-}
+final String json = "[1,2,3]";
+int[] ints = new int[]{1,2,3};
+Assert.assertArrayEquals(ints, JsonBs.deserialize(json, int[].class));
 ```
 
-# 对于数组的支持
-
-## 字符串
+### 反序列化列表
 
 ```java
-@Test
-public void stringEmptyTest() {
-    String[] strings = new String[]{};
-    String json = "[]";
-
-    Assert.assertEquals(json, JsonBs.serialize(strings));
-    Assert.assertEquals(strings, JsonBs.deserialize(json, String[].class));
-}
-
-@Test
-public void stringTest() {
-    String[] strings = new String[]{"a", "b", "c"};
-    final String json = "[\"a\",\"b\",\"c\"]";
-    Assert.assertEquals(json, JsonBs.serialize(strings));
-    Assert.assertEquals(strings, JsonBs.deserialize(json, String[].class));
-}
+final String json = "[1,2,3]";
+List<Integer> integerList = JsonBs.deserializeArray(json, Integer.class);
+Assert.assertEquals(3, integerList.size());
 ```
-
-## 基本类型测试
-
-```java
-public void intTest() {
-    int[] ints = new int[]{1,2,3};
-    final String intJson = "[1,2,3]";
-    Assert.assertEquals(intJson, JsonBs.serialize(ints));
-
-    //[1, 2, 3]
-    System.out.println(Arrays.toString(JsonBs.deserialize(intJson, int[].class)));
-}
-```
-
-## 基本对象类型测试
-
-```java
-public void integerTest() {
-    Integer[] ints = new Integer[]{1,2,3};
-    final String json = "[1,2,3]";
-    Assert.assertEquals(json, JsonBs.serialize(ints));
-
-    //[1, 2, 3]
-    System.out.println(Arrays.toString(JsonBs.deserialize(json, Integer[].class)));
-}
-```
-
-# 集合
-
-## 字符串列表测试
-
-```java
-public void stringTest() {
-    List<String> strings = new ArrayList<>();
-    strings.add("10");
-    strings.add("20");
-    strings.add("30");
-
-    Class clazz = strings.getClass();
-
-    final String json = "[\"10\",\"20\",\"30\"]";
-    Assert.assertEquals(json, JsonBs.serialize(strings));
-    Assert.assertEquals(strings, JsonBs.deserialize(json, clazz));
-}
-```
-
-## 字符串 Map 测试
-
-```java
-public void stringTest() {
-    Map<String, String> map = new HashMap<>();
-    map.put("123", "456");
-
-    final String json = "{\"123\":\"456\"}";
-    Assert.assertEquals(json, JsonBs.serialize(map));
-    Assert.assertEquals(map, JsonBs.deserialize(json, map.getClass()));
-}
-```
-
-# 对象
-
-## 基础对象演示
-
-- User.java
-
-```java
-public class User {
-
-    private String name;
-
-    private int age;
-
-    private double score;
-
-    private char sex;
-
-    private Date birthday;
-
-    //Getter & Setter
-    //ToString()
-}
-```
-
-- 测试代码
-
-```java
-public void userTest() {
-    User user = new User();
-    user.age(10).name("wiki").birthday(new Date(1568196960491L)).score(123.d).sex('g');
-
-    final String json = "{\"name\":\"wiki\",\"age\":10,\"score\":123.0,\"sex\":\"g\",\"birthday\":1568196960491}";
-    Assert.assertEquals(json, JsonBs.serialize(user));
-
-    User user2 = JsonBs.deserialize(json, User.class);
-    Assert.assertEquals(user.toString(), user2.toString());
-}
-```
-
-# 拓展阅读
-
-[00-什么是 json](doc/user/00-what-is-json.md)
-
-[01-模块介绍](doc/user/01-json-modules.md)
-
