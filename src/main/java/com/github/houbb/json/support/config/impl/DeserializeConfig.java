@@ -13,7 +13,7 @@ public class DeserializeConfig implements IDeserializeConfig {
      * 是否基于字段进行处理
      * @since 0.1.6
      */
-    private boolean fieldBased;
+    private boolean fieldBased = true;
 
     /**
      * 新建对象实例

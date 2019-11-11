@@ -1,10 +1,13 @@
 package com.github.houbb.json.test;
 
 import com.github.houbb.json.bs.JsonBs;
+import com.github.houbb.json.support.config.IDeserializeConfig;
 import com.github.houbb.json.support.config.ISerializeConfig;
+import com.github.houbb.json.support.config.impl.DeserializeConfig;
 import com.github.houbb.json.support.config.impl.SerializeConfig;
 import com.github.houbb.json.test.model.Book;
 import com.github.houbb.json.test.model.DefaultBeanDefinition;
+import com.github.houbb.json.test.model.NotFieldBook;
 import com.github.houbb.json.test.model.User;
 
 import org.junit.Assert;
@@ -57,6 +60,19 @@ public class BeanTest {
         final ISerializeConfig config = SerializeConfig.newInstance().nullRemains(true);
         String nullJson = JsonBs.serialize(book, config);
         Assert.assertEquals("{\"name\":null}", nullJson);
+    }
+
+    @Test
+    public void bookNotFieldBasedTest() {
+        NotFieldBook book = new NotFieldBook();
+        book.setName("hello");
+
+        final String json = "{\"name\":\"hello\"}";
+        Assert.assertEquals(json, JsonBs.serialize(book, SerializeConfig.newInstance().fieldBased(false)));
+
+        final IDeserializeConfig deserializeConfig = DeserializeConfig.newInstance().fieldBased(false);
+        NotFieldBook book2 = JsonBs.deserialize(json, NotFieldBook.class, deserializeConfig);
+        Assert.assertEquals("hello", book2.getName());
     }
 
 }

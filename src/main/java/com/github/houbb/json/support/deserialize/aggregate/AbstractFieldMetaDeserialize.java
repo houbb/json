@@ -10,6 +10,7 @@ import com.github.houbb.heaven.util.util.CollectionUtil;
 import com.github.houbb.json.api.IDeserialize;
 import com.github.houbb.json.bs.JsonBs;
 import com.github.houbb.json.constant.JsonBeanConst;
+import com.github.houbb.json.support.config.IDeserializeConfig;
 import com.github.houbb.json.support.context.IDeserializeContext;
 import com.github.houbb.json.support.scanner.impl.JsonFieldMetaScanner;
 
@@ -47,25 +48,30 @@ public abstract class AbstractFieldMetaDeserialize<T> implements IDeserialize<T>
     /**
      * 构建元字段信息列表
      * @param tClass 类信息
+     * @param config 反序列化配置
      * @return 元字段信息列表
      * @since 0.1.4
      */
-    protected abstract List<IFieldMeta> buildFieldMetaList(final Class<T> tClass);
+    protected abstract List<IFieldMeta> buildFieldMetaList(final Class<T> tClass,
+                                                           final IDeserializeConfig config);
 
     /**
      * 开始处理实例的字段值
      * @param instance 实例
      * @param fieldMeta 字段元数据
      * @param invocationHandler 代理处理类
+     * @param config 反序列化配置
      * @since 0.1.4
      */
     protected abstract void processInstanceField(final T instance, final IFieldMeta fieldMeta,
-                                                 final InvocationHandler invocationHandler);
+                                                 final InvocationHandler invocationHandler,
+                                                 final IDeserializeConfig config);
 
     @Override
     public T deserialize(String json, Class<T> tClass,
                          final IDeserializeContext context) {
         //1. 基础对象创建
+        final IDeserializeConfig config = context.config();
         InvocationHandler invocationHandler = this.createInvocationHandler();
         T instance = createInstance(tClass, invocationHandler);
 
@@ -75,7 +81,7 @@ public abstract class AbstractFieldMetaDeserialize<T> implements IDeserialize<T>
         }
 
         //3. 构建基本字段信息
-        final List<IFieldMeta> fieldList = buildFieldMetaList(tClass);
+        final List<IFieldMeta> fieldList = buildFieldMetaList(tClass, config);
         //3.1 快速返回
         if(CollectionUtil.isEmpty(fieldList)) {
             return instance;
@@ -96,7 +102,7 @@ public abstract class AbstractFieldMetaDeserialize<T> implements IDeserialize<T>
                 continue;
             }
 
-            this.processInstanceField(instance, fieldMeta, invocationHandler);
+            this.processInstanceField(instance, fieldMeta, invocationHandler, config);
         }
 
         //4. 返回结果

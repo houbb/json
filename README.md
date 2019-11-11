@@ -75,3 +75,80 @@ final String json = "[1,2,3]";
 List<Integer> integerList = JsonBs.deserializeArray(json, Integer.class);
 Assert.assertEquals(3, integerList.size());
 ```
+
+# 更多特性
+
+## 序列化是否保留 null 值
+
+- 说明
+
+默认 null 值不保留。
+
+- 测试代码
+
+```java
+Book book = new Book();
+
+String json = JsonBs.serialize(book);
+Assert.assertEquals("{}", json);
+
+final ISerializeConfig config = SerializeConfig.newInstance().nullRemains(true);
+String nullJson = JsonBs.serialize(book, config);
+Assert.assertEquals("{\"name\":null}", nullJson);
+```
+
+- Book.java
+
+```java
+public class Book {
+
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
+## 是否基于 field
+
+- 说明
+
+默认基于 field 进行序列化和反序列化处理。
+
+当然如果不指定，则以方法为准。
+
+- 测试代码
+
+```java
+NotFieldBook book = new NotFieldBook();
+book.setName("hello");
+
+final String json = "{\"name\":\"hello\"}";
+Assert.assertEquals(json, JsonBs.serialize(book, SerializeConfig.newInstance().fieldBased(false)));
+
+final IDeserializeConfig deserializeConfig = DeserializeConfig.newInstance().fieldBased(false);
+NotFieldBook book2 = JsonBs.deserialize(json, NotFieldBook.class, deserializeConfig);
+Assert.assertEquals("hello", book2.getName());
+```
+
+- NotFieldBook.java
+
+```java
+public class NotFieldBook {
+
+    private String bookName;
+
+    public String getName() {
+        return bookName;
+    }
+
+    public void setName(String name) {
+        this.bookName = name;
+    }
+}
+```
