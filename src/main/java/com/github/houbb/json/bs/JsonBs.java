@@ -101,6 +101,7 @@ public final class JsonBs {
     /**
      * 指定配置序列化对象
      * @param object 对象
+     * @param serializeConfig 序列化配置
      * @return 结果
      * @since 0.1.6
      */
@@ -113,6 +114,7 @@ public final class JsonBs {
      * 指定配置反序列化对象
      * @param json json
      * @param tClass 类信息
+     * @param deserializeConfig 反序列化配置
      * @param <T> 泛型
      * @return 反序列化后的对象
      * @since 0.1.6
