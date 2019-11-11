@@ -3,6 +3,7 @@ package com.github.houbb.json.support.deserialize.aggregate;
 import com.github.houbb.heaven.support.instance.impl.Instances;
 import com.github.houbb.json.api.IDeserialize;
 import com.github.houbb.json.constant.JsonIterableConst;
+import com.github.houbb.json.support.context.IDeserializeContext;
 import com.github.houbb.json.support.deserialize.DeserializeFactory;
 import com.github.houbb.json.support.scanner.impl.JsonIterableScanner;
 
@@ -34,7 +35,7 @@ public class ArrayDeserialize<T> implements IDeserialize<T[]> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public T[] deserialize(String json, Class<T[]> aClass) {
+    public T[] deserialize(String json, Class<T[]> aClass, IDeserializeContext context) {
         Class<T> itemClass = (Class<T>) aClass.getComponentType();
         final String trimJson = json.trim();
         if(JsonIterableConst.EMPTY.equals(trimJson)) {
@@ -49,7 +50,7 @@ public class ArrayDeserialize<T> implements IDeserialize<T[]> {
         T[] resultArray = (T[]) Array.newInstance(itemClass, arraySize);
         for(int i = 0; i < arraySize; i++) {
             String itemJson = stringList.get(i);
-            T item = (T) deserialize.deserialize(itemJson, itemClass);
+            T item = (T) deserialize.deserialize(itemJson, itemClass, context);
             Array.set(resultArray, i, item);
         }
         return resultArray;

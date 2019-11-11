@@ -10,6 +10,7 @@ import com.github.houbb.heaven.util.util.CollectionUtil;
 import com.github.houbb.json.api.IDeserialize;
 import com.github.houbb.json.bs.JsonBs;
 import com.github.houbb.json.constant.JsonBeanConst;
+import com.github.houbb.json.support.context.IDeserializeContext;
 import com.github.houbb.json.support.scanner.impl.JsonFieldMetaScanner;
 
 import java.lang.reflect.InvocationHandler;
@@ -62,7 +63,8 @@ public abstract class AbstractFieldMetaDeserialize<T> implements IDeserialize<T>
                                                  final InvocationHandler invocationHandler);
 
     @Override
-    public T deserialize(String json, Class<T> tClass) {
+    public T deserialize(String json, Class<T> tClass,
+                         final IDeserializeContext context) {
         //1. 基础对象创建
         InvocationHandler invocationHandler = this.createInvocationHandler();
         T instance = createInstance(tClass, invocationHandler);

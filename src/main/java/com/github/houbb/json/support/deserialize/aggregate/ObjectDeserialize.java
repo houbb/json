@@ -7,6 +7,7 @@ import com.github.houbb.json.api.IDeserialize;
 import com.github.houbb.json.bs.JsonBs;
 import com.github.houbb.json.exception.JsonRespCode;
 import com.github.houbb.json.exception.JsonRuntimeException;
+import com.github.houbb.json.support.context.IDeserializeContext;
 
 /**
  * 针对普通对象的反序列化
@@ -32,7 +33,7 @@ import com.github.houbb.json.exception.JsonRuntimeException;
 public class ObjectDeserialize implements IDeserialize {
 
     @Override
-    public Object deserialize(String json, Class aClass) {
+    public Object deserialize(String json, Class aClass, IDeserializeContext context) {
         if("true".equals(json)) {
             return true;
         }

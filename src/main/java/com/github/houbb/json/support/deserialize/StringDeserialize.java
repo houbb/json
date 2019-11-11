@@ -2,6 +2,7 @@ package com.github.houbb.json.support.deserialize;
 
 import com.github.houbb.json.api.IDeserialize;
 import com.github.houbb.json.api.ISpecialSymbol;
+import com.github.houbb.json.support.context.IDeserializeContext;
 import com.github.houbb.json.util.DeserializeUtil;
 
 /**
@@ -20,7 +21,7 @@ import com.github.houbb.json.util.DeserializeUtil;
 public class StringDeserialize implements IDeserialize<String> , ISpecialSymbol {
 
     @Override
-    public String deserialize(String json, Class<String> stringClass) {
+    public String deserialize(String json, Class<String> stringClass, IDeserializeContext context) {
         return DeserializeUtil.trimDoubleQuotes(json);
     }
 

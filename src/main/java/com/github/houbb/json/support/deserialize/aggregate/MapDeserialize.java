@@ -5,6 +5,7 @@ import com.github.houbb.heaven.support.tuple.impl.Pair;
 import com.github.houbb.heaven.util.lang.reflect.TypeUtil;
 import com.github.houbb.json.api.IDeserialize;
 import com.github.houbb.json.constant.JsonIterableConst;
+import com.github.houbb.json.support.context.IDeserializeContext;
 import com.github.houbb.json.support.deserialize.DeserializeFactory;
 import com.github.houbb.json.support.scanner.impl.JsonMapScanner;
 
@@ -23,7 +24,7 @@ public class MapDeserialize<K,V> implements IDeserialize<Map<K,V>> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map deserialize(String json, Class<Map<K, V>> mapClass) {
+    public Map deserialize(String json, Class<Map<K, V>> mapClass, IDeserializeContext context) {
         final String trimJson = json.trim();
         if(JsonIterableConst.EMPTY.equals(trimJson)) {
             return TypeUtil.createMap(mapClass);
@@ -41,8 +42,8 @@ public class MapDeserialize<K,V> implements IDeserialize<Map<K,V>> {
                 .scan(trimJson);
 
         for(Pair<String, String> pair : collectionJsons) {
-            final Object key = keyDes.deserialize(pair.getValueOne(), keyClass);
-            final Object value = valueDes.deserialize(pair.getValueTwo(), valueClass);
+            final Object key = keyDes.deserialize(pair.getValueOne(), keyClass, context);
+            final Object value = valueDes.deserialize(pair.getValueTwo(), valueClass, context);
             map.put(key, value);
         }
         return map;

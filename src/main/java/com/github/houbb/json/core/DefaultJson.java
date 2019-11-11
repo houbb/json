@@ -9,7 +9,9 @@ import com.github.houbb.json.api.ISerialize;
 import com.github.houbb.json.support.config.IDeserializeConfig;
 import com.github.houbb.json.support.config.ISerializeConfig;
 import com.github.houbb.json.support.config.impl.JsonConfigs;
+import com.github.houbb.json.support.context.IDeserializeContext;
 import com.github.houbb.json.support.context.ISerializeContext;
+import com.github.houbb.json.support.context.impl.DeserializeContext;
 import com.github.houbb.json.support.context.impl.SerializeContext;
 import com.github.houbb.json.support.deserialize.DeserializeFactory;
 import com.github.houbb.json.support.serialize.SerializeFactory;
@@ -67,8 +69,13 @@ public class DefaultJson implements IJson {
     @Override
     public <T> T deserialize(String json, Class<T> tClass) {
         IDeserialize deserialize = DeserializeFactory.getDeserialize(json, tClass);
-        T result = (T) deserialize.deserialize(json, tClass);
+        IDeserializeContext context = DeserializeContext.newInstance()
+                .deserialize(deserialize)
+                .config(deserializeConfig)
+                .json(json)
+                .type(tClass);
 
+        T result = (T) deserialize.deserialize(json, tClass, context);
         // 基本类型且返回类型为 null
         if(ObjectUtil.isNull(result)
             && ClassTypeUtil.isPrimitive(tClass)) {

@@ -1,6 +1,7 @@
 package com.github.houbb.json.support.context.impl;
 
 import com.github.houbb.heaven.support.attr.impl.AttributeContext;
+import com.github.houbb.json.api.IDeserialize;
 import com.github.houbb.json.support.config.IDeserializeConfig;
 import com.github.houbb.json.support.context.IDeserializeContext;
 
@@ -28,6 +29,16 @@ public class DeserializeContext extends AttributeContext implements IDeserialize
      * @since 0.1.6
      */
     private Class<?> type;
+
+    /**
+     * 反序列化实现
+     * @since 0.1.6
+     */
+    private IDeserialize deserialize;
+
+    public static DeserializeContext newInstance() {
+        return new DeserializeContext();
+    }
 
     @Override
     public IDeserializeConfig config() {
@@ -58,6 +69,20 @@ public class DeserializeContext extends AttributeContext implements IDeserialize
     public <T> DeserializeContext type(Class<T> type) {
         this.type = type;
         return this;
+    }
+
+    public IDeserialize deserialize() {
+        return deserialize;
+    }
+
+    public DeserializeContext deserialize(IDeserialize deserialize) {
+        this.deserialize = deserialize;
+        return this;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }

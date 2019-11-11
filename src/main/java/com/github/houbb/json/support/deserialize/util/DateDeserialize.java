@@ -2,6 +2,7 @@ package com.github.houbb.json.support.deserialize.util;
 
 import com.github.houbb.heaven.annotation.ThreadSafe;
 import com.github.houbb.json.api.IDeserialize;
+import com.github.houbb.json.support.context.IDeserializeContext;
 
 import java.util.Date;
 
@@ -15,7 +16,7 @@ import java.util.Date;
 public class DateDeserialize implements IDeserialize<Date> {
 
     @Override
-    public Date deserialize(String json, Class<Date> dateClass) {
+    public Date deserialize(String json, Class<Date> dateClass, IDeserializeContext context) {
         final long value = Long.parseLong(json);
         return new Date(value);
     }

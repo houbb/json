@@ -5,6 +5,7 @@ import com.github.houbb.heaven.util.util.ArrayPrimitiveUtil;
 import com.github.houbb.json.api.IDeserialize;
 import com.github.houbb.json.bs.JsonBs;
 import com.github.houbb.json.constant.JsonIterableConst;
+import com.github.houbb.json.support.context.IDeserializeContext;
 
 /**
  * 整形数组的反序列化
@@ -15,7 +16,7 @@ import com.github.houbb.json.constant.JsonIterableConst;
 public class ArrayLongDeserialize implements IDeserialize<long[]> {
 
     @Override
-    public long[] deserialize(String json, Class<long[]> aClass) {
+    public long[] deserialize(String json, Class<long[]> aClass, IDeserializeContext context) {
         final String trimJson = json.trim();
         if(JsonIterableConst.EMPTY.equals(trimJson)) {
             return ArrayPrimitiveUtil.LONG_EMPTY;
@@ -28,7 +29,7 @@ public class ArrayLongDeserialize implements IDeserialize<long[]> {
         long[] resultArray = new long[strings.length];
         for(int i = 0; i < strings.length; i++) {
             String itemJson = strings[i];
-            long item = JsonBs.deserialize(itemJson, long.class);
+            long item = JsonBs.deserialize(itemJson, long.class, context.config());
             resultArray[i] = item;
         }
         return resultArray;

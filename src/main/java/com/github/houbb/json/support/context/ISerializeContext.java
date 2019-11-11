@@ -23,6 +23,7 @@ public interface ISerializeContext extends IAttributeContext {
 
     /**
      * 原始对象
+     * 注意：暂时为最初的配置，不随着变化而变化。
      * @return 目标对象
      * @since 0.1.6
      */
@@ -30,6 +31,7 @@ public interface ISerializeContext extends IAttributeContext {
 
     /**
      * 对象类型
+     * 注意：暂时为最初的配置，不随着变化而变化。
      * @return 类型
      * @since 0.1.6
      */

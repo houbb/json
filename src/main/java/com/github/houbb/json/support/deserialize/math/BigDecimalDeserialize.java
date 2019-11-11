@@ -2,9 +2,9 @@ package com.github.houbb.json.support.deserialize.math;
 
 import com.github.houbb.heaven.annotation.ThreadSafe;
 import com.github.houbb.json.api.IDeserialize;
+import com.github.houbb.json.support.context.IDeserializeContext;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 /**
  * BigDecimal 反序列对象
@@ -16,7 +16,7 @@ import java.math.BigInteger;
 public class BigDecimalDeserialize implements IDeserialize<BigDecimal> {
 
     @Override
-    public BigDecimal deserialize(String json, Class<BigDecimal> bigDecimalClass) {
+    public BigDecimal deserialize(String json, Class<BigDecimal> bigDecimalClass, IDeserializeContext context) {
         return BigDecimal.valueOf(Double.valueOf(json));
     }
 

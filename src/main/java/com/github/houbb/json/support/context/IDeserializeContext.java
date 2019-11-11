@@ -8,7 +8,7 @@ import com.github.houbb.json.support.config.IDeserializeConfig;
  * @author binbin.hou
  * @since 0.1.6
  */
-public interface IDeserializeContext extends IAttributeContext {
+public interface IDeserializeContext extends IAttributeContext, Cloneable {
 
     /**
      * 配置信息
@@ -19,6 +19,7 @@ public interface IDeserializeContext extends IAttributeContext {
 
     /**
      * 原始对象
+     * 注意：暂时为最初的 json，不随着变化而变化。
      * @return 目标对象
      * @since 0.1.6
      */
