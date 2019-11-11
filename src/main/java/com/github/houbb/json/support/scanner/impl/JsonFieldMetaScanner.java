@@ -1,10 +1,10 @@
 package com.github.houbb.json.support.scanner.impl;
 
 import com.github.houbb.heaven.annotation.ThreadSafe;
+import com.github.houbb.heaven.reflect.meta.field.IFieldMeta;
 import com.github.houbb.heaven.support.tuple.impl.Pair;
 import com.github.houbb.heaven.util.lang.StringUtil;
 import com.github.houbb.json.constant.JsonBeanConst;
-import com.github.houbb.json.support.metadata.field.IFieldMeta;
 import com.github.houbb.json.support.scanner.IJsonScanner;
 import com.github.houbb.json.support.scanner.status.IBeanFieldStatus;
 import com.github.houbb.json.support.scanner.status.IBeanSplitterStatus;
@@ -17,8 +17,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 可遍历 {@link com.github.houbb.json.support.metadata.field.impl.FieldMeta} 扫描处理类
  *
+ * FieldMeta 扫描类
  * @author binbin.hou
  * @since 0.1.4
  */

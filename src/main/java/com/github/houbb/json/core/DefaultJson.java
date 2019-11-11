@@ -6,6 +6,9 @@ import com.github.houbb.heaven.util.lang.reflect.PrimitiveUtil;
 import com.github.houbb.json.api.IDeserialize;
 import com.github.houbb.json.api.IJson;
 import com.github.houbb.json.api.ISerialize;
+import com.github.houbb.json.support.config.IDeserializeConfig;
+import com.github.houbb.json.support.config.ISerializeConfig;
+import com.github.houbb.json.support.config.impl.JsonConfigs;
 import com.github.houbb.json.support.deserialize.DeserializeFactory;
 import com.github.houbb.json.support.serialize.SerializeFactory;
 
@@ -21,6 +24,30 @@ import com.github.houbb.json.support.serialize.SerializeFactory;
  * @since 0.0.1
  */
 public class DefaultJson implements IJson {
+
+    /**
+     * 序列化配置
+     * @since 0.1.6
+     */
+    private ISerializeConfig serializeConfig = JsonConfigs.serializeConfig();
+
+    /**
+     * 反序列化配置
+     * @since 0.1.6
+     */
+    private IDeserializeConfig deserializeConfig = JsonConfigs.deserializeConfig();
+
+    public static DefaultJson serializeConfig(ISerializeConfig serializeConfig) {
+        DefaultJson defaultJson = new DefaultJson();
+        defaultJson.serializeConfig = serializeConfig;
+        return defaultJson;
+    }
+
+    public static DefaultJson deserializeConfig(IDeserializeConfig deserializeConfig) {
+        DefaultJson defaultJson = new DefaultJson();
+        defaultJson.deserializeConfig = deserializeConfig;
+        return defaultJson;
+    }
 
     @SuppressWarnings("unchecked")
     @Override

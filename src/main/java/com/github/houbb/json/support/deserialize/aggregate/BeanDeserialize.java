@@ -1,13 +1,10 @@
 package com.github.houbb.json.support.deserialize.aggregate;
 
-import com.github.houbb.heaven.support.handler.IHandler;
+import com.github.houbb.heaven.reflect.meta.field.IFieldMeta;
+import com.github.houbb.heaven.reflect.meta.field.impl.FieldMetas;
 import com.github.houbb.heaven.util.lang.reflect.ClassUtil;
 import com.github.houbb.heaven.util.lang.reflect.ReflectFieldUtil;
-import com.github.houbb.heaven.util.util.CollectionUtil;
-import com.github.houbb.json.support.metadata.field.IFieldMeta;
-import com.github.houbb.json.support.metadata.field.impl.FieldMeta;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.util.List;
 
@@ -26,19 +23,7 @@ public class BeanDeserialize<T> extends AbstractFieldMetaDeserialize<T> {
 
     @Override
     protected List<IFieldMeta> buildFieldMetaList(Class<T> tClass) {
-        List<Field> fieldList = ClassUtil.getModifyableFieldList(tClass);
-
-        return CollectionUtil.toList(fieldList, new IHandler<Field, IFieldMeta>() {
-            @Override
-            public IFieldMeta handle(Field field) {
-                IFieldMeta fieldMeta = new FieldMeta();
-                fieldMeta.setField(field);
-                fieldMeta.setName(field.getName());
-                fieldMeta.setType(field.getType());
-                fieldMeta.setComponentType(ReflectFieldUtil.getComponentType(field));
-                return fieldMeta;
-            }
-        });
+        return FieldMetas.buildFieldsMetaList(tClass);
     }
 
     @Override

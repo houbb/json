@@ -2,27 +2,17 @@ package com.github.houbb.json.support.serialize.aggregate;
 
 import com.github.houbb.heaven.annotation.ThreadSafe;
 import com.github.houbb.heaven.constant.PunctuationConst;
-import com.github.houbb.heaven.support.handler.IHandler;
+import com.github.houbb.heaven.reflect.meta.field.IFieldMeta;
+import com.github.houbb.heaven.reflect.meta.field.impl.FieldMetas;
 import com.github.houbb.heaven.util.guava.Guavas;
 import com.github.houbb.heaven.util.lang.ObjectUtil;
-import com.github.houbb.heaven.util.lang.StringUtil;
-import com.github.houbb.heaven.util.lang.reflect.ClassUtil;
-import com.github.houbb.heaven.util.lang.reflect.ReflectFieldUtil;
-import com.github.houbb.heaven.util.lang.reflect.ReflectMethodUtil;
-import com.github.houbb.heaven.util.util.ArrayUtil;
 import com.github.houbb.heaven.util.util.CollectionUtil;
 import com.github.houbb.json.api.ISerialize;
 import com.github.houbb.json.bs.JsonBs;
 import com.github.houbb.json.constant.JsonBeanConst;
 import com.github.houbb.json.constant.JsonConst;
-import com.github.houbb.json.exception.JsonRespCode;
-import com.github.houbb.json.exception.JsonRuntimeException;
-import com.github.houbb.json.support.metadata.field.IFieldMeta;
-import com.github.houbb.json.support.metadata.field.impl.FieldMeta;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Collections;
+import java.lang.reflect.Member;
 import java.util.List;
 
 /**
@@ -76,40 +66,11 @@ public class BeanSerialize implements ISerialize {
 
         // 代理类
         if(tClass.getName().startsWith(JsonConst.PROXY_CLASS_NAME)) {
-            Method[] methods = tClass.getDeclaredMethods();
-            if(ArrayUtil.isEmpty(methods)) {
-                return Guavas.newArrayList();
-            }
-
-            List<IFieldMeta> fieldMetaList = Guavas.newArrayList();
-            for(Method method : methods) {
-                final String methodName = method.getName();
-                method.setAccessible(true);
-                if(method.getName().startsWith("get")) {
-                    final Object value = ReflectMethodUtil.invoke(instance, method, new Object[]{});
-                    IFieldMeta fieldMeta = new FieldMeta();
-                    fieldMeta.setName(StringUtil.firstToLowerCase(methodName.substring(3)));
-                    fieldMeta.setType(method.getReturnType());
-                    fieldMeta.setValue(value);
-
-                    fieldMetaList.add(fieldMeta);
-                }
-            }
-            return fieldMetaList;
+            return FieldMetas.buildMethodsMetaList(tClass, instance);
         }
 
-        // 默认
-        List<Field> fieldList = ClassUtil.getModifyableFieldList(tClass);
-        return CollectionUtil.toList(fieldList, new IHandler<Field, IFieldMeta>() {
-            @Override
-            public IFieldMeta handle(Field field) {
-                IFieldMeta fieldMeta = new FieldMeta();
-                fieldMeta.setName(field.getName());
-                fieldMeta.setType(field.getType());
-                fieldMeta.setValue(ReflectFieldUtil.getValue(field, instance));
-                return fieldMeta;
-            }
-        });
+        // 默认基于字段
+        return FieldMetas.buildFieldsMetaList(tClass, instance);
     }
 
 }

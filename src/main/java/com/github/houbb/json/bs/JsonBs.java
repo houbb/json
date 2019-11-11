@@ -3,11 +3,10 @@ package com.github.houbb.json.bs;
 import com.github.houbb.heaven.support.instance.impl.Instances;
 import com.github.houbb.heaven.util.guava.Guavas;
 import com.github.houbb.heaven.util.lang.StringUtil;
-import com.github.houbb.heaven.util.lang.reflect.ClassTypeUtil;
 import com.github.houbb.json.constant.JsonIterableConst;
 import com.github.houbb.json.core.DefaultJson;
-import com.github.houbb.json.support.scanner.impl.JsonArrayObjectScanner;
-import com.github.houbb.json.support.scanner.impl.JsonIterableScanner;
+import com.github.houbb.json.support.config.IDeserializeConfig;
+import com.github.houbb.json.support.config.ISerializeConfig;
 import com.github.houbb.json.util.JsonIterableUtil;
 
 import java.util.List;
@@ -97,6 +96,31 @@ public final class JsonBs {
     public static <T> T deserializeBytes(final byte[] bytes, Class<T> tClass) {
         String json = StringUtil.bytesToString(bytes);
         return deserialize(json, tClass);
+    }
+
+    /**
+     * 指定配置序列化对象
+     * @param object 对象
+     * @return 结果
+     * @since 0.1.6
+     */
+    public static String serialize(Object object, final ISerializeConfig serializeConfig) {
+        return DefaultJson.serializeConfig(serializeConfig)
+                .serialize(object);
+    }
+
+    /**
+     * 指定配置反序列化对象
+     * @param json json
+     * @param tClass 类信息
+     * @param <T> 泛型
+     * @return 反序列化后的对象
+     * @since 0.1.6
+     */
+    public static <T> T deserialize(String json, Class<T> tClass,
+                                    final IDeserializeConfig deserializeConfig) {
+        return DefaultJson.deserializeConfig(deserializeConfig)
+                .deserialize(json, tClass);
     }
 
 }

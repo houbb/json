@@ -42,14 +42,15 @@ http://jsoniter.com/
 
 [json 汇总](https://github.com/akullpp/awesome-java#json)
 
-
-# 其他特性
+# 核心配置
 
 ## 是否显示 Null 值
 
 ## 基于 getter/setter
 
 可以选择，是否基于 field
+
+# 辅助功能
 
 ## compress
 

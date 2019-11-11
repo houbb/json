@@ -1,5 +1,6 @@
 package com.github.houbb.json.support.deserialize.aggregate;
 
+import com.github.houbb.heaven.reflect.meta.field.IFieldMeta;
 import com.github.houbb.heaven.support.tuple.impl.Pair;
 import com.github.houbb.heaven.util.lang.ObjectUtil;
 import com.github.houbb.heaven.util.lang.StringUtil;
@@ -9,7 +10,6 @@ import com.github.houbb.heaven.util.util.CollectionUtil;
 import com.github.houbb.json.api.IDeserialize;
 import com.github.houbb.json.bs.JsonBs;
 import com.github.houbb.json.constant.JsonBeanConst;
-import com.github.houbb.json.support.metadata.field.IFieldMeta;
 import com.github.houbb.json.support.scanner.impl.JsonFieldMetaScanner;
 
 import java.lang.reflect.InvocationHandler;
