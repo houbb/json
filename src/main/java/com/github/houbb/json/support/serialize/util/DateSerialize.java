@@ -2,6 +2,7 @@ package com.github.houbb.json.support.serialize.util;
 
 import com.github.houbb.heaven.annotation.ThreadSafe;
 import com.github.houbb.json.api.ISerialize;
+import com.github.houbb.json.support.context.ISerializeContext;
 
 import java.util.Date;
 
@@ -14,8 +15,8 @@ import java.util.Date;
 public class DateSerialize implements ISerialize<Date> {
 
     @Override
-    public String serialize(Date date) {
-        return String.valueOf(date.getTime());
+    public String serialize(Date object, ISerializeContext context) {
+        return String.valueOf(object.getTime());
     }
 
 }

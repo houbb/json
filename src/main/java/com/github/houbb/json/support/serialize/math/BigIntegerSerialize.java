@@ -2,6 +2,7 @@ package com.github.houbb.json.support.serialize.math;
 
 import com.github.houbb.heaven.annotation.ThreadSafe;
 import com.github.houbb.json.api.ISerialize;
+import com.github.houbb.json.support.context.ISerializeContext;
 
 import java.math.BigInteger;
 
@@ -14,8 +15,8 @@ import java.math.BigInteger;
 public class BigIntegerSerialize implements ISerialize<BigInteger> {
 
     @Override
-    public String serialize(BigInteger bigInteger) {
-        return bigInteger.toString();
+    public String serialize(BigInteger object, ISerializeContext context) {
+        return object.toString();
     }
 
 }

@@ -23,6 +23,7 @@ public class SerializeConfig implements ISerializeConfig {
 
     /**
      * 是否美化输出
+     * 预留方法，本期暂不支持。
      * @since 0.1.6
      */
     private boolean pretty = false;

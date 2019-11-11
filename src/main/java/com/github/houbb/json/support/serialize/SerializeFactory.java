@@ -106,6 +106,4 @@ public final class SerializeFactory {
         return Instances.singleton(BeanSerialize.class);
     }
 
-
-
 }

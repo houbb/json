@@ -1,6 +1,9 @@
 package com.github.houbb.json.support.context.impl;
 
 import com.github.houbb.heaven.support.attr.impl.AttributeContext;
+import com.github.houbb.heaven.util.lang.ObjectUtil;
+import com.github.houbb.heaven.util.lang.reflect.ClassUtil;
+import com.github.houbb.json.api.ISerialize;
 import com.github.houbb.json.support.config.ISerializeConfig;
 import com.github.houbb.json.support.context.ISerializeContext;
 
@@ -17,6 +20,12 @@ import com.github.houbb.json.support.context.ISerializeContext;
 public class SerializeContext extends AttributeContext implements ISerializeContext {
 
     /**
+     * 序列化实现
+     * @since 0.1.16
+     */
+    private ISerialize serialize;
+
+    /**
      * 配置信息
      * @since 0.1.6
      */
@@ -27,6 +36,30 @@ public class SerializeContext extends AttributeContext implements ISerializeCont
      * @since 0.1.6
      */
     private Object object;
+
+    /**
+     * 对象类型
+     * @since 0.1.6
+     */
+    private Class type;
+
+    /**
+     * 新建实例
+     * @return 上下文
+     * @since 0.1.6
+     */
+    public static SerializeContext newInstance() {
+        return new SerializeContext();
+    }
+
+    public ISerialize serialize() {
+        return serialize;
+    }
+
+    public SerializeContext serialize(ISerialize serialize) {
+        this.serialize = serialize;
+        return this;
+    }
 
     @Override
     public ISerializeConfig config() {
@@ -45,15 +78,13 @@ public class SerializeContext extends AttributeContext implements ISerializeCont
 
     public SerializeContext object(Object object) {
         this.object = object;
+        this.type = ObjectUtil.getClass(object);
         return this;
     }
 
     @Override
-    public String toString() {
-        return "SerializeContext{" +
-                "config=" + config +
-                ", object=" + object +
-                '}';
+    public Class type() {
+        return type;
     }
 
 }

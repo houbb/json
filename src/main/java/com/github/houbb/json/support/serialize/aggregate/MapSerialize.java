@@ -8,6 +8,7 @@ import com.github.houbb.heaven.util.util.MapUtil;
 import com.github.houbb.json.api.ISerialize;
 import com.github.houbb.json.bs.JsonBs;
 import com.github.houbb.json.constant.JsonMapConst;
+import com.github.houbb.json.support.context.ISerializeContext;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ import java.util.Map;
 public class MapSerialize<K,V> implements ISerialize<Map<K,V>> {
 
     @Override
-    public String serialize(Map<K, V> map) {
+    public String serialize(Map<K, V> map, ISerializeContext context) {
         if(MapUtil.isEmpty(map)) {
             return JsonMapConst.EMPTY;
         }

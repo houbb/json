@@ -2,6 +2,7 @@ package com.github.houbb.json.support.serialize;
 
 import com.github.houbb.heaven.annotation.ThreadSafe;
 import com.github.houbb.json.api.ISerialize;
+import com.github.houbb.json.support.context.ISerializeContext;
 
 /**
  * Float 序列化
@@ -12,8 +13,8 @@ import com.github.houbb.json.api.ISerialize;
 public class FloatSerialize implements ISerialize<Float> {
 
     @Override
-    public String serialize(Float aFloat) {
-        return aFloat.toString();
+    public String serialize(Float object, ISerializeContext context) {
+        return object.toString();
     }
 
 }

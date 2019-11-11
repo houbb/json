@@ -2,6 +2,7 @@ package com.github.houbb.json.support.serialize;
 
 import com.github.houbb.heaven.annotation.ThreadSafe;
 import com.github.houbb.json.api.ISerialize;
+import com.github.houbb.json.support.context.ISerializeContext;
 
 /**
  * short 序列化
@@ -12,8 +13,8 @@ import com.github.houbb.json.api.ISerialize;
 public class ShortSerialize implements ISerialize<Short> {
 
     @Override
-    public String serialize(Short aShort) {
-        return aShort.toString();
+    public String serialize(Short object, ISerializeContext context) {
+        return object.toString();
     }
 
 }

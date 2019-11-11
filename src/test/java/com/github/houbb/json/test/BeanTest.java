@@ -1,6 +1,9 @@
 package com.github.houbb.json.test;
 
 import com.github.houbb.json.bs.JsonBs;
+import com.github.houbb.json.support.config.ISerializeConfig;
+import com.github.houbb.json.support.config.impl.SerializeConfig;
+import com.github.houbb.json.test.model.Book;
 import com.github.houbb.json.test.model.DefaultBeanDefinition;
 import com.github.houbb.json.test.model.User;
 
@@ -38,6 +41,22 @@ public class BeanTest {
                 "{\"name\":\"apple\",\"className\":\"com.github.houbb.ioc.test.service.Apple\"}\n" +
                 "]";
         System.out.println(JsonBs.deserialize(json, DefaultBeanDefinition.class));
+    }
+
+    /**
+     * null 值是否保留测试
+     * @since 0.1.6
+     */
+    @Test
+    public void nullRemainsTest() {
+        Book book = new Book();
+
+        String json = JsonBs.serialize(book);
+        Assert.assertEquals("{}", json);
+
+        final ISerializeConfig config = SerializeConfig.newInstance().nullRemains(true);
+        String nullJson = JsonBs.serialize(book, config);
+        Assert.assertEquals("{\"name\":null}", nullJson);
     }
 
 }

@@ -6,6 +6,7 @@ import com.github.houbb.heaven.util.util.CollectionUtil;
 import com.github.houbb.json.api.ISerialize;
 import com.github.houbb.json.bs.JsonBs;
 import com.github.houbb.json.constant.JsonIterableConst;
+import com.github.houbb.json.support.context.ISerializeContext;
 import com.github.houbb.json.util.JsonIterableUtil;
 
 import java.util.Collection;
@@ -21,7 +22,7 @@ import java.util.List;
 public class CollectionSerialize implements ISerialize<Object> {
 
     @Override
-    public String serialize(Object object) {
+    public String serialize(Object object, ISerializeContext context) {
         Collection<?> collection = (Collection)object;
         if(CollectionUtil.isEmpty(collection)) {
             return JsonIterableConst.EMPTY;

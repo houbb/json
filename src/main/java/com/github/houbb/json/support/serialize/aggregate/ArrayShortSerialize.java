@@ -6,6 +6,7 @@ import com.github.houbb.heaven.util.util.ArrayPrimitiveUtil;
 import com.github.houbb.json.api.ISerialize;
 import com.github.houbb.json.bs.JsonBs;
 import com.github.houbb.json.constant.JsonIterableConst;
+import com.github.houbb.json.support.context.ISerializeContext;
 import com.github.houbb.json.util.JsonIterableUtil;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
 public class ArrayShortSerialize implements ISerialize<short[]> {
 
     @Override
-    public String serialize(short[] objects) {
+    public String serialize(short[] objects, ISerializeContext context) {
         if(ArrayPrimitiveUtil.isEmpty(objects)) {
             return JsonIterableConst.EMPTY;
         }

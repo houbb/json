@@ -28,4 +28,11 @@ public interface ISerializeContext extends IAttributeContext {
      */
     Object object();
 
+    /**
+     * 对象类型
+     * @return 类型
+     * @since 0.1.6
+     */
+    Class type();
+
 }

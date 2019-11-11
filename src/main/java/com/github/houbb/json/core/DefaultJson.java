@@ -9,6 +9,8 @@ import com.github.houbb.json.api.ISerialize;
 import com.github.houbb.json.support.config.IDeserializeConfig;
 import com.github.houbb.json.support.config.ISerializeConfig;
 import com.github.houbb.json.support.config.impl.JsonConfigs;
+import com.github.houbb.json.support.context.ISerializeContext;
+import com.github.houbb.json.support.context.impl.SerializeContext;
 import com.github.houbb.json.support.deserialize.DeserializeFactory;
 import com.github.houbb.json.support.serialize.SerializeFactory;
 
@@ -53,7 +55,12 @@ public class DefaultJson implements IJson {
     @Override
     public String serialize(Object object) {
         ISerialize serialize = SerializeFactory.getSerialize(object);
-        return serialize.serialize(object);
+        ISerializeContext serializeContext = SerializeContext.newInstance()
+                .serialize(serialize)
+                .config(serializeConfig)
+                .object(object);
+
+        return serialize.serialize(object, serializeContext);
     }
 
     @SuppressWarnings("unchecked")
