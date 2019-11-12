@@ -1,5 +1,6 @@
 package com.github.houbb.json.support.deserialize.aggregate;
 
+import com.github.houbb.heaven.constant.MethodConst;
 import com.github.houbb.heaven.reflect.meta.field.IFieldMeta;
 import com.github.houbb.heaven.reflect.meta.field.impl.FieldMetas;
 import com.github.houbb.heaven.util.lang.ObjectUtil;
@@ -32,7 +33,7 @@ public class BeanDeserialize<T> extends AbstractFieldMetaDeserialize<T> {
         if(config.fieldBased()) {
             return FieldMetas.buildFieldsMetaList(tClass);
         } else {
-            return FieldMetas.buildMethodsMetaList(tClass);
+            return FieldMetas.buildWriteMethodsMetaList(tClass);
         }
     }
 
@@ -49,9 +50,9 @@ public class BeanDeserialize<T> extends AbstractFieldMetaDeserialize<T> {
                 return;
             }
             // 执行设置属性值
-            String setMethodName = "set" + StringUtil.firstToUpperCase(fieldMeta.getName());
+            String setMethodName = MethodConst.SET_PREFIX + StringUtil.firstToUpperCase(fieldMeta.getName());
             final Class clazz = instance.getClass();
-            Method method = ClassUtil.getMethod(clazz, setMethodName, fieldValue.getClass());
+            Method method = ClassUtil.getMethod(clazz, setMethodName, fieldMeta.getType());
             ReflectMethodUtil.invoke(instance, method, fieldValue);
         }
     }

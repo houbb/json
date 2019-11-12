@@ -66,13 +66,15 @@ public class BeanTest {
     public void bookNotFieldBasedTest() {
         NotFieldBook book = new NotFieldBook();
         book.setName("hello");
+        book.setChina(true);
 
-        final String json = "{\"name\":\"hello\"}";
+        final String json = "{\"name\":\"hello\",\"china\":true}";
         Assert.assertEquals(json, JsonBs.serialize(book, SerializeConfig.newInstance().fieldBased(false)));
 
         final IDeserializeConfig deserializeConfig = DeserializeConfig.newInstance().fieldBased(false);
         NotFieldBook book2 = JsonBs.deserialize(json, NotFieldBook.class, deserializeConfig);
         Assert.assertEquals("hello", book2.getName());
+        Assert.assertTrue(book2.isChina());
     }
 
 }

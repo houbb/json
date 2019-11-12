@@ -6,7 +6,16 @@ package com.github.houbb.json.test.model;
  */
 public class NotFieldBook {
 
+    public NotFieldBook() {
+    }
+
     private String bookName;
+
+    /**
+     * 验证 is
+     * @since 0.1.7
+     */
+    private boolean china;
 
     public String getName() {
         return bookName;
@@ -16,11 +25,11 @@ public class NotFieldBook {
         this.bookName = name;
     }
 
-    @Override
-    public String toString() {
-        return "NotFieldBook{" +
-                "bookName='" + bookName + '\'' +
-                '}';
+    public boolean isChina() {
+        return china;
     }
 
+    public void setChina(boolean china) {
+        this.china = china;
+    }
 }

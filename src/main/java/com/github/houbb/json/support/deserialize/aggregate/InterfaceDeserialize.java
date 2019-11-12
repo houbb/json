@@ -30,7 +30,7 @@ public class InterfaceDeserialize<T> extends AbstractFieldMetaDeserialize<T> {
      */
     @Override
     protected List<IFieldMeta> buildFieldMetaList(Class<T> tClass, IDeserializeConfig config) {
-        return FieldMetas.buildMethodsMetaList(tClass);
+        return FieldMetas.buildWriteMethodsMetaList(tClass);
     }
 
     @Override

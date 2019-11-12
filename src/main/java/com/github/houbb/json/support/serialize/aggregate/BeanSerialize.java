@@ -76,7 +76,7 @@ public class BeanSerialize implements ISerialize {
         // 不以字段为准
         if(tClass.getName().startsWith(JsonConst.PROXY_CLASS_NAME)
             || !serializeConfig.fieldBased()) {
-            return FieldMetas.buildMethodsMetaList(tClass, instance);
+            return FieldMetas.buildReadMethodsMetaList(tClass, instance);
         }
 
         // 基于字段
