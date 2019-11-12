@@ -15,13 +15,13 @@ import com.github.houbb.json.support.serialize.util.DateSerialize;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Currency;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 序列化工厂
+ *
+ * [为什么这么快](https://blog.csdn.net/u012961566/article/details/76944982)
+ *
  * @author binbin.hou
  * @since 0.0.1
  */
@@ -31,9 +31,17 @@ public final class SerializeFactory {
 
     /**
      * 类与实例的映射关系
+     * 优化：使用 IdentityHashMap 避免 equals() 判断
      * @since 0.0.2
      */
-    private static final Map<Class, ISerialize> CLASS_INSTANCE_MAP = new HashMap<>();
+    private static final Map<Class, ISerialize> CLASS_INSTANCE_MAP = new IdentityHashMap<>();
+
+    /**
+     * 用户自定义的类型映射关系
+     * 优化：为了提升性能，牺牲空间换时间。
+     * @since 0.1.8
+     */
+    private static final Map<Class, ISerialize> CLASS_DEFINE_MAP = new IdentityHashMap<>();
 
     static {
         CLASS_INSTANCE_MAP.put(String.class, Instances.singleton(StringSerialize.class));
@@ -84,26 +92,34 @@ public final class SerializeFactory {
             return serialize;
         }
 
+        // 利用缓存快速返回
+        serialize = CLASS_DEFINE_MAP.get(clazz);
+        if(ObjectUtil.isNotNull(serialize)) {
+            return serialize;
+        }
+
         // 聚合类型
         // 枚举
         if(clazz.isEnum()) {
-            return Instances.singleton(EnumSerialize.class);
-        }
-        // 数组
-        if(ClassTypeUtil.isArray(clazz)) {
-            return Instances.singleton(ArraySerialize.class);
-        }
-        // 集合
-        if(ClassTypeUtil.isCollection(clazz)) {
-            return Instances.singleton(CollectionSerialize.class);
-        }
-        // map
-        if(ClassTypeUtil.isMap(clazz)) {
-            return Instances.singleton(MapSerialize.class);
+            serialize = Instances.singleton(EnumSerialize.class);
+        } else if(ClassTypeUtil.isArray(clazz)) {
+            // 数组
+            serialize = Instances.singleton(ArraySerialize.class);
+        } else if(ClassTypeUtil.isCollection(clazz)) {
+            // 集合
+            serialize =  Instances.singleton(CollectionSerialize.class);
+        } else if(ClassTypeUtil.isMap(clazz)) {
+            // map
+            serialize =  Instances.singleton(MapSerialize.class);
+        } else {
+            // bean
+            serialize =  Instances.singleton(BeanSerialize.class);
         }
 
-        //bean
-        return Instances.singleton(BeanSerialize.class);
+        // 添加缓存映射，供下次使用。
+        CLASS_DEFINE_MAP.put(clazz, serialize);
+
+        return serialize;
     }
 
 }

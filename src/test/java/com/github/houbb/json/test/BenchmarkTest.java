@@ -18,16 +18,16 @@ import java.util.Date;
 public class BenchmarkTest {
 
     /**
-     * 1w 次
+     * 10w次：
      *
-     * Cost Time: 542
+     * Cost Time: 308   V-0.1.7
      */
     @Test
     public void jsonBsSerializeTest() {
         User user = buildUser();
 
         final long startTime = System.currentTimeMillis();
-        for(int i = 0; i < 10000; i++) {
+        for(int i = 0; i < 100000; i++) {
             JsonBs.serialize(user);
         }
         final long endTime = System.currentTimeMillis();

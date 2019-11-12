@@ -66,6 +66,7 @@ public class BeanSerialize implements ISerialize {
      * @param serializeConfig 序列化配置信息
      * @return 结果列表
      * @since 0.1.4
+     * @see java.lang.reflect.Proxy#isProxyClass(Class) 用这个替代写死的判断
      */
     @SuppressWarnings("unchecked")
     private List<IFieldMeta> buildFieldList(final Object instance,
