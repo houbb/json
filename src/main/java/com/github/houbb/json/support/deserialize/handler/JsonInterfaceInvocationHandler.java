@@ -69,10 +69,8 @@ public class JsonInterfaceInvocationHandler implements InvocationHandler {
             Object fieldValue = this.map.get(fieldName);
             final Class returnType = method.getReturnType();
             return TypeUtil.cast(fieldValue, returnType);
-        }
-
-        // setter
-        if(1 == args.length) {
+        } else if(1 == args.length) {
+            // setter
             final Object param = args[0];
 
             //1. equals
@@ -83,9 +81,11 @@ public class JsonInterfaceInvocationHandler implements InvocationHandler {
             //2. 设置属性
             String fieldName = getFieldName(methodName);
             this.setFieldValue(fieldName, param);
+            return null;
+        } else {
+            throw new UnsupportedOperationException("Not support for call method " + method.getName());
         }
 
-        throw new UnsupportedOperationException("Not support for call method " + method.getName());
     }
 
 
