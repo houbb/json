@@ -6,7 +6,7 @@
 
     <groupId>com.github.houbb</groupId>
     <artifactId>json</artifactId>
-    <version>0.1.8</version>
+    <version>0.1.9-SNAPSHOT</version>
 
     <properties>
         <!--============================== All Plugins START ==============================-->
@@ -25,10 +25,12 @@
         <project.compiler.level>1.7</project.compiler.level>
 
         <!--============================== INTER ==============================-->
-        <heaven.version>0.1.43</heaven.version>
+        <heaven.version>0.1.62</heaven.version>
+        <asm-tool.version>0.0.3</asm-tool.version>
 
         <!--============================== OTHER ==============================-->
         <junit.version>4.12</junit.version>
+        <fastjson.versioon>1.2.62</fastjson.versioon>
     </properties>
 
     <dependencyManagement>
@@ -42,11 +44,31 @@
                 <version>${heaven.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.github.houbb</groupId>
+                <artifactId>asm-tool</artifactId>
+                <version>${asm-tool.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.github.houbb</groupId>
+                        <artifactId>heaven</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
             <!--============================== OTHER ==============================-->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
+                <scope>test</scope>
+                <optional>true</optional>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.versioon}</version>
                 <scope>test</scope>
                 <optional>true</optional>
             </dependency>
@@ -62,25 +84,22 @@
         <dependency>
             <groupId>com.github.houbb</groupId>
             <artifactId>heaven</artifactId>
-            <version>${heaven.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.houbb</groupId>
+            <artifactId>asm-tool</artifactId>
         </dependency>
 
         <!--============================== OTHER ==============================-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-            <optional>true</optional>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.62</version>
-            <scope>test</scope>
-            <optional>true</optional>
         </dependency>
 
     </dependencies>
