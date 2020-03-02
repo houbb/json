@@ -46,7 +46,7 @@ Maven 3.X
 <dependency>
     <groupId>com.github.houbb</groupId>
     <artifactId>json</artifactId>
-    <version>0.1.5</version>
+    <version>${最新版本}</version>
 </dependency>
 ```
 
