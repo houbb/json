@@ -5,10 +5,7 @@ import com.github.houbb.json.support.config.IDeserializeConfig;
 import com.github.houbb.json.support.config.ISerializeConfig;
 import com.github.houbb.json.support.config.impl.DeserializeConfig;
 import com.github.houbb.json.support.config.impl.SerializeConfig;
-import com.github.houbb.json.test.model.Book;
-import com.github.houbb.json.test.model.DefaultBeanDefinition;
-import com.github.houbb.json.test.model.NotFieldBook;
-import com.github.houbb.json.test.model.User;
+import com.github.houbb.json.test.model.*;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -32,6 +29,19 @@ public class BeanTest {
 
         User user2 = JsonBs.deserialize(json, User.class);
         Assert.assertEquals(user.toString(), user2.toString());
+    }
+
+    /**
+     * 不同顺序的测试
+     * @since 0.1.9
+     */
+    @Test
+    public void userDifferentOrderTest() {
+        final String json = "{\"name\":\"wiki\",\"age\":10,\"score\":123.0,\"sex\":\"g\",\"birthday\":1568196960491}";
+
+        UserDifferentOrder order = JsonBs.deserialize(json, UserDifferentOrder.class);
+        final String orderJson = JsonBs.serialize(order);
+        Assert.assertEquals("{\"age\":10,\"score\":123.0,\"sex\":\"g\",\"name\":\"wiki\",\"birthday\":1568196960491}", orderJson);
     }
 
     /**

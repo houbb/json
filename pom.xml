@@ -6,7 +6,7 @@
 
     <groupId>com.github.houbb</groupId>
     <artifactId>json</artifactId>
-    <version>0.1.9-SNAPSHOT</version>
+    <version>0.1.9</version>
 
     <properties>
         <!--============================== All Plugins START ==============================-->
@@ -25,7 +25,7 @@
         <project.compiler.level>1.7</project.compiler.level>
 
         <!--============================== INTER ==============================-->
-        <heaven.version>0.1.62</heaven.version>
+        <heaven.version>0.1.86</heaven.version>
         <asm-tool.version>0.0.3</asm-tool.version>
 
         <!--============================== OTHER ==============================-->
@@ -174,7 +174,7 @@
 
     <!--============================== ADD For sonatype START ==============================-->
     <name>json</name>
-    <description>The json framework for java.</description>
+    <description>The json framework for java.(java 序列化反序列化工具。)</description>
 
     <parent>
         <groupId>org.sonatype.oss</groupId>
