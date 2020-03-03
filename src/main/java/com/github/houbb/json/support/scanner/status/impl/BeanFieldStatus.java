@@ -118,7 +118,10 @@ public class BeanFieldStatus implements IBeanFieldStatus {
         }
         if(JsonIterableConst.C_END == c
                 || JsonBeanConst.C_END == c) {
-            this.valueSpecialStack.pop();
+            //AVOID NPE
+            if(!this.valueSpecialStack.isEmpty()) {
+                this.valueSpecialStack.pop();
+            }
         }
     }
 
