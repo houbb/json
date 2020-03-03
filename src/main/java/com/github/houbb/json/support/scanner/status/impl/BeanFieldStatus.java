@@ -106,6 +106,8 @@ public class BeanFieldStatus implements IBeanFieldStatus {
 
     /**
      * 添加值-特殊符号
+     *
+     * TODO: BUG-FIXED
      * @param c 当前符号
      * @since 0.1.4
      */
