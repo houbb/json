@@ -82,8 +82,6 @@ public class JsonFieldMetaScanner implements IJsonScanner<Pair<String, String>> 
         char[] chars = json.toCharArray();
         StringBuilder stringBuilder = new StringBuilder();
         for(char c : chars) {
-            System.out.print(c);
-
             // 设置当前字段
             quotesStatus.currentChar(c);
 
